@@ -1,34 +1,82 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Georgia', serif;
-  background: linear-gradient(to bottom right, #f5f2e7, #dcd6c9);
-  color: #2c2c2c;
+  font-family: "Georgia", serif;
+  background: radial-gradient(circle at top, #f5f2e7 0%, #d0c7b8 40%, #1f2933 100%);
+  color: #1f2933;
+}
+
+.overlay {
+  background: rgba(255, 255, 255, 0.82);
+  min-height: 100vh;
 }
 
 .container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
 }
 
 h1 {
   text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 30px;
-  color: #3e3e3e;
+  font-size: 2.6em;
+  margin-bottom: 10px;
+  color: #111827;
+  letter-spacing: 0.04em;
 }
 
-p {
+h2 {
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: normal;
+  color: #4b5563;
+  margin-bottom: 40px;
+}
+
+.conversation {
+  border-left: 3px solid #9ca3af;
+  padding-left: 18px;
+}
+
+.message {
+  margin-bottom: 22px;
+}
+
+.role {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.user .role {
+  color: #2563eb;
+}
+
+.assistant .role {
+  color: #16a34a;
+}
+
+.bubble {
+  padding: 12px 14px;
+  border-radius: 8px;
   line-height: 1.6;
-  margin-bottom: 16px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  white-space: pre-wrap;
 }
 
-strong {
-  color: #5a5a5a;
+.user .bubble {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.assistant .bubble {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
 }
 
 .image-container {
@@ -39,15 +87,25 @@ strong {
 .image-container img {
   max-width: 100%;
   height: auto;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
 }
 
 .caption {
   font-size: 0.9em;
-  color: #555;
-  margin-top: 8px;
+  color: #4b5563;
+  margin-top: 10px;
+  font-style: italic;
 }
+
+footer {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 0.85em;
+  color: #6b7280;
+}
+
+/* Toggle de idioma */
 
 .lang-toggle {
   text-align: right;
@@ -67,4 +125,3 @@ strong {
 .lang-toggle a:hover {
   background: #374151;
 }
-
