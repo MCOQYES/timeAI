@@ -62,3 +62,17 @@ footer {
     font-size: 0.85em;
     opacity: 0.6;
 }
+
+button {
+    background-color: transparent;
+    border: 1px solid #bbb;
+    color: #e6e6e6;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: rgba(255,255,255,0.1);
+}
