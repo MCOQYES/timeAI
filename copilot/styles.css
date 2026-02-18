@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Georgia', serif;
+  background: linear-gradient(to bottom right, #f5f2e7, #dcd6c9);
+  color: #2c2c2c;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #3e3e3e;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+strong {
+  color: #5a5a5a;
+}
+
+.image-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.caption {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 8px;
+}
