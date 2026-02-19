@@ -72,6 +72,36 @@ body {
     z-index: 1;
 }
 
+.language-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.lang-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(79, 172, 254, 0.2);
+    color: #4facfe;
+    text-decoration: none;
+    border-radius: 25px;
+    border: 1px solid rgba(79, 172, 254, 0.4);
+    backdrop-filter: blur(10px);
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.lang-button:hover {
+    background: rgba(79, 172, 254, 0.3);
+    border-color: #4facfe;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+}
+
 header {
     text-align: center;
     margin-bottom: 60px;
@@ -223,6 +253,16 @@ footer .small {
     
     .container {
         padding: 20px 15px;
+    }
+    
+    .language-toggle {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    header {
+        margin-top: 20px;
     }
 }
 
