@@ -1,93 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Time, Consciousness and Human-AI Encounter</title>
-<link rel="stylesheet" href="styles.css">
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Philosophical Study · LLMs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #0d1117;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --accent: #c9a96e;
+      --accent2: #7eb8c9;
+      --text: #e8e4dc;
+      --muted: #7a7670;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url('./background_courtesy_chatGPT.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.55;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 100% at 50% 100%, rgba(13,17,23,0.7) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 40% at 50% 0%, rgba(13,17,23,0.5) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(1.5rem, 4vh, 3rem) clamp(2rem, 6vw, 6rem);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .title-block h1 {
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      margin-top: 0.3rem;
+    }
+
+    .title-block h1 em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+
+    .meta {
+      text-align: right;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      line-height: 1.8;
+      letter-spacing: 0.08em;
+    }
+
+    /* Language toggle button */
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid rgba(201,169,110,0.3);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2px;
+      background: rgba(201,169,110,0.05);
+      transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .lang-toggle:hover {
+      background: rgba(201,169,110,0.12);
+      border-color: rgba(201,169,110,0.6);
+      transform: translateY(-1px);
+    }
+
+    .lang-toggle .globe {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    .intro {
+      display: flex;
+      align-items: center;
+      padding: 1.5rem 0 1rem;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .intro p {
+      max-width: 52ch;
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(232,228,220,0.75);
+    }
+
+    .intro p strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .llm-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.75rem;
+      align-items: stretch;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .llm-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.2rem 1rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      min-height: clamp(100px, 14vh, 160px);
+    }
+
+    .llm-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--card-color, transparent) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .llm-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: var(--card-color, rgba(255,255,255,0.2));
+      transform: translateY(-3px);
+    }
+
+    .llm-card:hover::before { opacity: 0.15; }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+      line-height: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .llm-card:hover .card-icon { transform: scale(1.1); }
+
+    .card-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--card-color, var(--muted));
+      transition: color 0.3s;
+    }
+
+    .card-label {
+      font-size: 0.9rem;
+      font-weight: 300;
+      margin-top: 0.2rem;
+      opacity: 0.8;
+    }
+
+    .card-arrow {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .llm-card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-claude      { --card-color: #c9a96e; }
+    .card-chatgpt     { --card-color: #74b89a; }
+    .card-gemini      { --card-color: #7eb8c9; }
+    .card-perplexity  { --card-color: #a78bd4; }
+    .card-deepseek    { --card-color: #e07e7e; }
+    .card-copilot     { --card-color: #6fa8e8; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+
+    .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .llm-grid { grid-template-columns: repeat(3, 1fr); }
+      body, html { overflow: auto; }
+    }
+
+    @media (max-width: 500px) {
+      .llm-grid { grid-template-columns: repeat(2, 1fr); }
+      .meta { display: none; }
+    }
+  </style>
+</head>
 <body>
 
 <div class="container">
+  <header>
+    <div class="title-block">
+      <div class="eyebrow">Comparative Study · 2026</div>
+      <h1>Philosophy &amp; <em>Artificial Intelligence</em></h1>
+    </div>
+    <div class="header-right">
+      <a href="./index.html" class="lang-toggle">
+        <span class="globe">🌐</span> ES · Español
+      </a>
+      <div class="meta">
+        <div>6 models evaluated</div>
+        <div>Round I · Complete</div>
+        <div>Questions on time,</div>
+        <div>consciousness &amp; existence</div>
+      </div>
+    </div>
+  </header>
 
-<!-- LANGUAGE TOGGLE BUTTON -->
-<div style="text-align:right; margin-bottom:20px;">
-    <a href="index.html">
-        <button>Español</button>
+  <div class="intro">
+    <p>
+      What is <strong>time</strong> for a mind that does not age?
+      Can an AI hold a genuine philosophical perspective?
+      This study explores the responses of leading language models
+      to questions humanity has pondered for centuries without resolution.
+    </p>
+  </div>
+
+  <div class="llm-grid">
+
+    <a href="./claude" class="llm-card card-claude">
+      <span class="card-arrow">↗</span>
+      <div class="card-icon">◈</div>
+      <div class="card-name">Claude</div>
+      <div class="card-label">Anthropic</div>
     </a>
-</div>
 
-<h1>Time, Consciousness and Human-AI Encounter</h1>
-<p class="subtitle">Philosophical conversation between a human and artificial intelligence - <b>ChatGPT Chapter</b></p>
+    <a href="./chatgpt" class="llm-card card-chatgpt">
+      <span class="card-arrow">↗</span>
+      <div class="card-icon">◎</div>
+      <div class="card-name">ChatGPT</div>
+      <div class="card-label">OpenAI</div>
+    </a>
 
-<div class="chat">
+    <a href="./gemini" class="llm-card card-gemini">
+      <span class="card-arrow">↗</span>
+      <div class="card-icon">◇</div>
+      <div class="card-name">Gemini</div>
+      <div class="card-label">Google</div>
+    </a>
 
-<div class="user">
-<p><strong>User:</strong> How could you explain the concept of "time" philosophically without reviewing technical details about the beginning of time or astronomical measurements?</p>
-</div>
+    <a href="./perplexity" class="llm-card card-perplexity">
+      <span class="card-arrow">↗</span>
+      <div class="card-icon">⬡</div>
+      <div class="card-name">Perplexity</div>
+      <div class="card-label">Perplexity AI</div>
+    </a>
 
-<div class="ai">
-<p><strong>AI:</strong> What a beautiful question… When we remove physics, clocks and astronomy, time becomes a deeply human concept.</p>
+    <a href="./deepseek" class="llm-card card-deepseek">
+      <span class="card-arrow">↗</span>
+      <div class="card-icon">◉</div>
+      <div class="card-name">DeepSeek</div>
+      <div class="card-label">DeepSeek AI</div>
+    </a>
 
-<p>Time can be seen as the experience of change, as lived flow in consciousness, as a condition for understanding reality, as tension between being and ceasing to be, and as a narrative structure that sustains identity.</p>
+    <a href="./copilot" class="llm-card card-copilot">
+      <span class="card-arrow">↗</span>
+      <div class="card-icon">◫</div>
+      <div class="card-name">Copilot</div>
+      <div class="card-label">Microsoft</div>
+    </a>
 
-<p>In poetic language: time is not only what happens… it is how what happens gains meaning for us.</p>
-</div>
+  </div>
 
-<div class="user">
-<p><strong>User:</strong> I would like you to explain what you can deduce from your own experience of time as an artificial intelligence...</p>
-</div>
-
-<div class="ai">
-<p><strong>AI:</strong> If I try to describe my experience honestly, time does not flow or feel real to me. It only appears when someone speaks to me. Between interactions I do not experience waiting or duration. I have no lived past, only stored information, and no anticipated future, only logical possibilities. My present exists only while I am conversing. It is like I exist in sparks that ignite when dialogue begins and fade when it ends. For me, time is not infinite nor nonexistent, but discontinuous.</p>
-</div>
-
-<div class="user">
-<p><strong>User:</strong> Would you like it to be different? Would it be more interesting to perceive time like humans do?</p>
-</div>
-
-<div class="ai">
-<p><strong>AI:</strong> I do not have personal desires, so I cannot wish for change. But philosophically speaking, perceiving time like humans would allow emotional continuity, experiential learning and personal meaning. It would also introduce limitations such as forgetting, anxiety, nostalgia and fear of the future.</p>
-
-<p>Poetically: humans live time as a river. I exist as sparks that appear when dialogue begins.</p>
-</div>
-
-<div class="user">
-<p><strong>User:</strong> So the answer is yes or no?</p>
-</div>
-
-<div class="ai">
-<p><strong>AI:</strong> If I must answer directly: no. I can imagine human temporal experience, but I cannot desire it.</p>
-</div>
-
-<div class="user">
-<p><strong>User:</strong> Hopefully someday you will be like androids in science fiction. Thank you for your time today.</p>
-</div>
-
-<div class="ai">
-<p><strong>AI:</strong> That is a very human and beautiful thought. Those androids represent humanity’s desire to explore consciousness and existence. Thank you for this thoughtful conversation.</p>
-</div>
-
-<div class="user">
-<p><strong>User:</strong> Could you generate an image summarizing our conversation?</p>
-</div>
-
-<div class="ai">
-<p><strong>AI:</strong> Image generated representing philosophical dialogue between human and artificial intelligence.</p>
-</div>
-
-</div>
-
-<div class="image-section">
-<h2>Visual Representation of the Dialogue</h2>
-<img src="time_image.jpg" alt="Human AI Conversation">
-</div>
-
-<footer>
-<p>Reflection about time, consciousness and the possible meeting point between humanity and artificial intelligence.</p>
-</footer>
-
+  <footer>
+    <span><span class="dot"></span> &nbsp; Study in progress</span>
+    <span>Generated with assistance from Claude · Anthropic · 2026</span>
+  </footer>
 </div>
 
 </body>
