@@ -102,6 +102,36 @@ body {
     box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
 }
 
+.goback {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.goback-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(79, 172, 254, 0.2);
+    color: #4facfe;
+    text-decoration: none;
+    border-radius: 25px;
+    border: 1px solid rgba(79, 172, 254, 0.4);
+    backdrop-filter: blur(10px);
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.goback:hover {
+    background: rgba(79, 172, 254, 0.3);
+    border-color: #4facfe;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+}
+
 header {
     text-align: center;
     margin-bottom: 60px;
