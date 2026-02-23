@@ -22,7 +22,7 @@
             align-items: center;
         }
 
-        /* Efecto de partículas sutiles (inspirado en cubos de hielo y estrellas) */
+        /* Efecto de partículas sutiles */
         body::before {
             content: "";
             position: fixed;
@@ -53,7 +53,39 @@
             z-index: 2;
         }
 
-        /* Línea divisoria simbólica (el puente) */
+        /* Botón de idioma */
+        .language-switch {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+        }
+        
+        .lang-btn {
+            background: rgba(30, 35, 45, 0.8);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 215, 150, 0.3);
+            color: #e0d5c0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .lang-btn:hover {
+            background: rgba(50, 60, 80, 0.9);
+            border-color: rgba(255, 200, 120, 0.8);
+            color: #fff0d0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* Línea divisoria simbólica */
         .bridge-line {
             height: 2px;
             background: linear-gradient(90deg, 
@@ -148,7 +180,6 @@
             color: #a0c0e0;
         }
 
-        /* Separadores temáticos */
         .time-divider {
             display: flex;
             align-items: center;
@@ -220,7 +251,6 @@
             border-bottom-color: #dbb87c;
         }
 
-        /* responsive */
         @media (max-width: 600px) {
             .container {
                 width: 95%;
@@ -232,11 +262,21 @@
             .message {
                 max-width: 95%;
             }
+            .language-switch {
+                position: static;
+                text-align: right;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Botón de cambio a inglés -->
+        <div class="language-switch">
+            <a href="index_eng.html" class="lang-btn">🌐 Read in English</a>
+        </div>
+        
         <h1>DOS CONCEPTOS DEL TIEMPO</h1>
         <div class="subhead">una conversación entre humano e inteligencia artificial sobre la experiencia temporal, la memoria y el instante eterno<br><b>Capítulo Deepseek</b></div>
 
