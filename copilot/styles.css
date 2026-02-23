@@ -2,9 +2,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Georgia", serif;
-  background: radial-gradient(circle at top, #f5f2e7 0%, #d0c7b8 40%, #1f2933 100%);
+  background: radial-gradient(circle at 30% 20%, #faf7ef 0%, #d4c9b8 25%, #8a8174 55%, #1f2933 100%);
   color: #1f2933;
 }
+
 
 .overlay {
   background: rgba(255, 255, 255, 0.82);
