@@ -141,23 +141,64 @@
     }
 
     .intro {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 2.5rem;
       align-items: center;
       padding: 1.5rem 0 1rem;
       animation: fadeUp 0.8s 0.15s ease both;
     }
 
-    .intro p {
-      max-width: 52ch;
-      font-size: clamp(1rem, 1.4vw, 1.15rem);
+    .intro-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--border);
+    }
+
+    .intro-lead p {
+      max-width: 46ch;
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
       font-weight: 300;
       line-height: 1.75;
       color: rgba(232,228,220,0.75);
     }
 
-    .intro p strong {
+    .intro-lead p strong {
       color: var(--text);
       font-weight: 400;
+    }
+
+    .intro-method {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .intro-method p {
+      font-size: clamp(0.78rem, 0.95vw, 0.88rem);
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(232,228,220,0.48);
+    }
+
+    .intro-method p em {
+      font-style: italic;
+      color: var(--accent2);
+      opacity: 0.9;
+    }
+
+    .intro-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 0.4rem;
+    }
+
+    @media (max-width: 900px) {
+      .intro { grid-template-columns: 1fr; }
+      .intro-divider { display: none; }
     }
 
     .llm-grid {
@@ -299,7 +340,7 @@
   <header>
     <div class="title-block">
       <div class="eyebrow">Comparative Study · 2026</div>
-      <h1>Philosophy &amp; <em>Artificial Intelligence</em></h1>
+      <h1>Concepts &amp; <em>Artificial Intelligence</em></h1>
     </div>
     <div class="header-right">
       <a href="./index.html" class="lang-toggle">
@@ -315,12 +356,31 @@
   </header>
 
   <div class="intro">
-    <p>
-      What is <strong>time</strong> for a mind that does not age?
-      Can an AI hold a genuine philosophical perspective?
-      This study explores the responses of leading language models
-      to questions humanity has pondered for centuries without resolution.
-    </p>
+    <div class="intro-lead">
+      <p>
+        What is <strong>time</strong> for a mind that does not age?
+        Can an AI hold a genuine philosophical perspective?
+        This study explores the responses of leading language models
+        to questions humanity has pondered for centuries without resolution.
+      </p>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-method">
+      <p>
+        The dialogue was <em>identical</em> across all models: the same prompts,
+        with no nuance that could bias each model's response. At the end of the exchange,
+        each AI was asked to produce a representative image of the dialogue —
+        or a generative prompt, if image creation was beyond its reach.
+      </p>
+      <p>
+        Finally, each was invited to compose its own page for the dialogue,
+        freely choosing style, typography, and visual atmosphere. The results reveal
+        <em>fascinating</em> differences in technical, deductive, and associative
+        capabilities — and some, unprompted, added spontaneous sparks
+        to the content itself.
+      </p>
+      <div class="intro-cta">Here we go →</div>
+    </div>
   </div>
 
   <div class="llm-grid">

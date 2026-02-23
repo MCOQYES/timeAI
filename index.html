@@ -145,23 +145,64 @@
 
     /* Intro */
     .intro {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 2.5rem;
       align-items: center;
       padding: 1.5rem 0 1rem;
       animation: fadeUp 0.8s 0.15s ease both;
     }
 
-    .intro p {
-      max-width: 52ch;
-      font-size: clamp(1rem, 1.4vw, 1.15rem);
+    .intro-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--border);
+    }
+
+    .intro-lead p {
+      max-width: 46ch;
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
       font-weight: 300;
       line-height: 1.75;
       color: rgba(232,228,220,0.75);
     }
 
-    .intro p strong {
+    .intro-lead p strong {
       color: var(--text);
       font-weight: 400;
+    }
+
+    .intro-method {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .intro-method p {
+      font-size: clamp(0.78rem, 0.95vw, 0.88rem);
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(232,228,220,0.48);
+    }
+
+    .intro-method p em {
+      font-style: italic;
+      color: var(--accent2);
+      opacity: 0.9;
+    }
+
+    .intro-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 0.4rem;
+    }
+
+    @media (max-width: 900px) {
+      .intro { grid-template-columns: 1fr; }
+      .intro-divider { display: none; }
     }
 
     /* Grid of LLMs */
@@ -308,8 +349,7 @@
   <header>
     <div class="title-block">
       <div class="eyebrow">Estudio comparativo · 2026</div>
-      <h1>Conceptos Fundamentales &amp; <em>Inteligencia Artificial</em>
-      <br>Capítulo <em>Tiempo</em></h1>
+      <h1>Conceptos &amp; <em>Inteligencia Artificial</em></h1>
     </div>
     <div class="header-right">
       <a href="./index_eng.html" class="lang-toggle">
@@ -325,12 +365,31 @@
   </header>
 
   <div class="intro">
-    <p>
-      ¿Qué es el <strong>tiempo</strong> para una mente que no envejece?
-      ¿Puede una IA tener una perspectiva filosófica genuina?
-      Este estudio explora las respuestas de los principales modelos de lenguaje
-      ante preguntas que los humanos llevamos siglos sin resolver.
-    </p>
+    <div class="intro-lead">
+      <p>
+        ¿Qué es el <strong>tiempo</strong> para una mente que no envejece?
+        ¿Puede una IA sostener una perspectiva filosófica genuina?
+        Este estudio explora las respuestas de los principales modelos de lenguaje
+        ante preguntas que la humanidad lleva siglos sin resolver.
+      </p>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-method">
+      <p>
+        El diálogo fue <em>idéntico</em> para todos los modelos: los mismos prompts,
+        sin matices que pudieran sesgar la respuesta de cada uno. Al término del intercambio,
+        se solicitó a cada IA una imagen representativa del diálogo —o un prompt
+        generativo, si carecía de esa capacidad.
+      </p>
+      <p>
+        Finalmente, se les pidió componer una página propia del diálogo, eligiendo
+        libremente estilos, tipografía y atmósfera visual. El resultado revela
+        diferencias <em>fascinantes</em> en sus capacidades técnicas, deductivas
+        y de asociación — y algunos, sin que se les pidiera, añadieron
+        chispazos espontáneos al contenido mismo.
+      </p>
+      <div class="intro-cta">Aquí vamos →</div>
+    </div>
   </div>
 
   <div class="llm-grid">
