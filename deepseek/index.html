@@ -85,6 +85,39 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
+        .goback {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 10;
+        }
+        
+        .goback-btn {
+            background: rgba(30, 35, 45, 0.8);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 215, 150, 0.3);
+            color: #e0d5c0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .goback-btn:hover {
+            background: rgba(50, 60, 80, 0.9);
+            border-color: rgba(255, 200, 120, 0.8);
+            color: #fff0d0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+
+
         /* Línea divisoria simbólica */
         .bridge-line {
             height: 2px;
@@ -272,10 +305,20 @@
 </head>
 <body>
     <div class="container">
-        <!-- Botón de cambio a inglés -->
+
+    <table style="width: 100%; border-collapse: collapse;"><tr><td>
+    <div class="goback">
+      <a href="https://mcoqyes.github.io/timeAI/" class="goback-btn"><button>Main Page</button></a>
+    </div>
+    </td>
+    <td>
+       <!-- Botón de cambio a inglés -->
         <div class="language-switch">
             <a href="index_eng.html" class="lang-btn">🌐 Read in English</a>
         </div>
+    </td>
+    </tr>
+    </table>  
         
         <h1>DOS CONCEPTOS DEL TIEMPO</h1>
         <div class="subhead">una conversación entre humano e inteligencia artificial sobre la experiencia temporal, la memoria y el instante eterno<br><b>Capítulo Deepseek</b></div>
