@@ -74,7 +74,30 @@
             color: var(--bg-color);
         }
 
-
+                
+        
+        .goback {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .goback-btn {
+            background: transparent;
+            border: 1px solid var(--human-accent);
+            color: var(--human-accent);
+            padding: 8px 16px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        .goback-btn:hover {
+            background: var(--human-accent);
+            color: var(--bg-color);
+        }
 
         header {
 
@@ -328,9 +351,21 @@
 
 <body>
 
-<div class="lang-switch">
-        <a href="index_eng.html" class="lang-btn">English</a>
+
+   <table style="width: 100%; border-collapse: collapse;"><tr><td>
+    <div class="goback">
+      <a href="https://mcoqyes.github.io/timeAI/" class="goback-btn">Main Page</a>
     </div>
+    </td>
+    <td>
+        <div class="lang-switch">
+            <a href="index_eng.html" class="lang-btn">English</a>
+        </div>
+    </td>
+    </tr>
+    </table>     
+
+
 
     <header>
 
