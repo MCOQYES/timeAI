@@ -1,0 +1,20 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo circular -->
+  <circle cx="25" cy="25" r="23" fill="#4A6FA5" stroke="#2C3E50" stroke-width="2"/>
+  
+  <!-- Ojo/visor tipo "deep seek" -->
+  <circle cx="25" cy="25" r="12" fill="#2C3E50"/>
+  <circle cx="25" cy="25" r="8" fill="#4A6FA5"/>
+  <circle cx="25" cy="25" r="4" fill="#FFFFFF"/>
+  
+  <!-- Pupila -->
+  <circle cx="28" cy="22" r="2" fill="#2C3E50"/>
+  
+  <!-- Ondas de radar/búsqueda -->
+  <path d="M37 25C37 31.6274 31.6274 37 25 37" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M39 25C39 32.732 32.732 39 25 39" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M41 25C41 33.8366 33.8366 41 25 41" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+  
+  <!-- Punto de luz -->
+  <circle cx="30" cy="20" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+</svg>
