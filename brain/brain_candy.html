@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+canvas { display: block; }
+#info {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.18);
+  pointer-events: none;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="info">FRACTAL ORGÁNICO · φ-SIMETRÍA · CLIC PARA MUTAR</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const PHI = (1 + Math.sqrt(5)) / 2;
+const GA  = Math.PI * (3 - Math.sqrt(5));
+
+let W, H, CX, CY;
+let t = 0;
+let frame = 0;
+let seed = Math.random() * 1000;
+let targetSeed = seed;
+let mutating = false;
+let mutProgress = 0;
+
+// ── PARAMETERS (morphable) ─────────────────────────────────
+let p = freshParams();
+let pNext = null;
+
+function freshParams() {
+  const syms = [5, 6, 7, 8, 10, 12];
+  return {
+    sym:        syms[Math.floor(Math.random() * syms.length)],
+    layers:     3 + Math.floor(Math.random() * 4),
+    petals:     Math.floor(Math.random() * 6) + 3,
+    twist:      (Math.random() - 0.5) * 2.5,
+    pulse:      0.06 + Math.random() * 0.12,
+    bloom:      0.4 + Math.random() * 0.5,
+    hueBase:    Math.random() * 360,
+    hueSpread:  60 + Math.random() * 200,
+    brightness: 55 + Math.random() * 30,
+    lineWidth:  0.4 + Math.random() * 1.2,
+    dotMode:    Math.random() > 0.5,
+    trailAlpha: 0.03 + Math.random() * 0.06,
+    speed:      0.004 + Math.random() * 0.012,
+    phiPow:     0.5 + Math.random() * 1.0,
+  };
+}
+
+function resize() {
+  W = cv.width  = window.innerWidth;
+  H = cv.height = window.innerHeight;
+  CX = W / 2;
+  CY = H / 2;
+}
+
+// ── COLOR ──────────────────────────────────────────────────
+
+function hsl(h, s, l, a) {
+  return `hsla(${h % 360},${s}%,${l}%,${a == null ? 1 : a})`;
+}
+
+function layerColor(layer, totalLayers, progress, params, alpha) {
+  const t2 = layer / totalLayers;
+  const hShift = t2 * params.hueSpread + params.hueBase + progress * 40;
+  const sat = 70 + t2 * 30;
+  const lit = params.brightness - t2 * 20 + Math.sin(progress * Math.PI * 2) * 8;
+  return hsl(hShift, sat, lit, alpha);
+}
+
+// ── GEOMETRY ───────────────────────────────────────────────
+
+function spiralPt(i, total, radius, twistAngle, phiPow) {
+  const frac = i / total;
+  const angle = frac * Math.PI * 2 * PHI * 3 + twistAngle;
+  const r = Math.pow(frac, phiPow) * radius;
+  return { x: Math.cos(angle) * r, y: Math.sin(angle) * r };
+}
+
+function petalPt(i, total, radius, petalCount, twist) {
+  const angle = (i / total) * Math.PI * 2;
+  const petalAngle = angle * petalCount * 0.5;
+  const r = radius * (0.5 + 0.5 * Math.abs(Math.cos(petalAngle + twist)));
+  return { x: Math.cos(angle) * r, y: Math.sin(angle) * r };
+}
+
+// ── DRAW ONE FRAME ─────────────────────────────────────────
+
+function drawLayer(params, layer, totalLayers, time) {
+  const sym = params.sym;
+  const radius = Math.min(W, H) * params.bloom * (0.3 + layer / totalLayers * 0.7);
+  const nPts = 120 + layer * 80;
+  const twist = time * params.twist + layer * (GA * 0.5);
+  const pulse = 1 + Math.sin(time * params.pulse * Math.PI * 2 + layer) * 0.08;
+
+  for (let s = 0; s < sym; s++) {
+    const symAngle = (s / sym) * Math.PI * 2 + time * 0.03 * (layer % 2 === 0 ? 1 : -1);
+
+    ctx.save();
+    ctx.translate(CX, CY);
+    ctx.rotate(symAngle);
+    ctx.scale(pulse, pulse);
+
+    const alpha = (0.15 + (layer / totalLayers) * 0.55) * (mutating ? 1 - mutProgress * 0.5 : 1);
+    const col = layerColor(layer, totalLayers, time, params, alpha);
+
+    ctx.strokeStyle = col;
+    ctx.fillStyle   = col;
+    ctx.lineWidth   = params.lineWidth;
+    ctx.lineCap     = 'round';
+
+    if (params.dotMode) {
+      for (let i = 0; i < nPts; i++) {
+        const frac = i / nPts;
+        let pt;
+        if (layer % 2 === 0) {
+          pt = spiralPt(i, nPts, radius, twist, params.phiPow);
+        } else {
+          pt = petalPt(i, nPts, radius, params.petals, twist);
+        }
+        const sz = (0.5 + frac * 2.5) * params.lineWidth;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, sz, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else {
+      ctx.beginPath();
+      for (let i = 0; i <= nPts; i++) {
+        const blend = Math.sin(time * 0.7 + layer * 0.4);
+        let ptA = spiralPt(i, nPts, radius, twist, params.phiPow);
+        let ptB = petalPt(i, nPts, radius, params.petals, twist);
+        const bFrac = (Math.sin(time * 0.3 + layer * 0.8) + 1) * 0.5;
+        const pt = {
+          x: ptA.x * (1 - bFrac) + ptB.x * bFrac,
+          y: ptA.y * (1 - bFrac) + ptB.y * bFrac,
+        };
+        i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.stroke();
+    }
+
+    ctx.restore();
+  }
+}
+
+// ── TRANSITION ─────────────────────────────────────────────
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function lerpParams(pa, pb, t) {
+  const keys = ['twist','pulse','bloom','hueBase','hueSpread',
+                 'brightness','lineWidth','trailAlpha','speed','phiPow'];
+  const out = { ...pa };
+  for (const k of keys) out[k] = lerp(pa[k], pb[k], t);
+  out.sym    = t < 0.5 ? pa.sym    : pb.sym;
+  out.layers = t < 0.5 ? pa.layers : pb.layers;
+  out.petals = t < 0.5 ? pa.petals : pb.petals;
+  out.dotMode = t < 0.5 ? pa.dotMode : pb.dotMode;
+  return out;
+}
+
+// ── MAIN LOOP ──────────────────────────────────────────────
+
+function tick() {
+  requestAnimationFrame(tick);
+  t += p.speed;
+  frame++;
+
+  // Trail / persistence-of-vision effect
+  const trailA = mutating ? p.trailAlpha * 3 : p.trailAlpha;
+  ctx.fillStyle = `rgba(0,0,0,${trailA})`;
+  ctx.fillRect(0, 0, W, H);
+
+  let drawP = p;
+
+  if (mutating) {
+    mutProgress += 0.008;
+    if (mutProgress >= 1) {
+      mutProgress = 0;
+      mutating = false;
+      p = pNext;
+      pNext = null;
+    } else {
+      drawP = lerpParams(p, pNext, smoothstep(mutProgress));
+    }
+  }
+
+  for (let layer = 0; layer < drawP.layers; layer++) {
+    drawLayer(drawP, layer, drawP.layers, t);
+  }
+
+  // Occasional center bloom
+  if (frame % 3 === 0) {
+    const gR = Math.min(W, H) * 0.04 * (1 + Math.sin(t * 2) * 0.3);
+    const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, gR);
+    grad.addColorStop(0, hsl(drawP.hueBase + t * 30, 80, 90, 0.15));
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(CX, CY, gR, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function smoothstep(x) {
+  return x * x * (3 - 2 * x);
+}
+
+// ── MUTATION TRIGGER ───────────────────────────────────────
+
+function mutate() {
+  if (mutating) return;
+  pNext = freshParams();
+  mutating = true;
+  mutProgress = 0;
+}
+
+// Auto-mutate every ~20s
+setInterval(mutate, 20000);
+
+// Click to mutate
+document.addEventListener('click', mutate);
+document.addEventListener('touchstart', mutate, { passive: true });
+
+window.addEventListener('resize', resize);
+resize();
+tick();
+</script>
+</body>
+</html>
