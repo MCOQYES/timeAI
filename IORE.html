@@ -1,1 +1,603 @@
-https://claude.ai/public/artifacts/f9314332-d8f3-4a1d-9440-653fcf6d941e
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>???</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Oswald:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --red: #cc1111;
+  --red2: #ff2222;
+  --cyan: #00e5ff;
+  --dark: #050508;
+  --mid: #111118;
+}
+
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  background: var(--dark);
+  font-family: 'Bebas Neue', sans-serif;
+  cursor: crosshair;
+}
+
+/* ── CANVAS CAPAS ── */
+#fractalCanvas { position:fixed; inset:0; z-index:0; }
+#particleCanvas { position:fixed; inset:0; z-index:1; pointer-events:none; }
+
+/* ── GRAIN ── */
+.grain {
+  position:fixed; inset:0; z-index:2; opacity:.12; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+  animation: grainShift .07s steps(1) infinite;
+}
+@keyframes grainShift {
+  0%  {background-position:0 0}
+  33% {background-position:-50px 25px}
+  66% {background-position:30px -20px}
+}
+
+/* ── SCANLINES ── */
+.scanlines {
+  position:fixed; inset:0; z-index:3; pointer-events:none;
+  background: repeating-linear-gradient(to bottom,
+    transparent 0px, transparent 3px,
+    rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px);
+}
+
+/* ── VIGNETTE ── */
+.vignette {
+  position:fixed; inset:0; z-index:4; pointer-events:none;
+  background: radial-gradient(ellipse at center,
+    transparent 25%, rgba(0,0,0,.5) 65%, rgba(0,0,0,.92) 100%);
+}
+
+/* ── INTERFAZ PRINCIPAL ── */
+.ui {
+  position:fixed; inset:0; z-index:10;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap: 0;
+}
+
+/* CLASIFICACIÓN TOP */
+.classification {
+  font-family:'Share Tech Mono', monospace;
+  font-size: clamp(.45rem, 1vw, .65rem);
+  letter-spacing:.25em;
+  color: var(--red);
+  opacity:0;
+  animation: fadeIn .5s ease 0.2s forwards;
+  margin-bottom:.4rem;
+}
+
+/* CONTADOR */
+.counter-wrap {
+  display:flex; gap:.7rem; align-items:center; justify-content:center;
+  margin-bottom:.7rem;
+  opacity:0; animation: fadeIn .6s ease .5s forwards;
+}
+.counter-block {
+  display:flex; flex-direction:column; align-items:center;
+  min-width:2.5rem;
+}
+.counter-block .digits {
+  font-family:'Share Tech Mono', monospace;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: var(--red2);
+  line-height:1;
+  text-shadow: 0 0 18px rgba(220,30,30,.7), 0 0 40px rgba(220,30,30,.3);
+  transition: color .1s;
+}
+.counter-block .label {
+  font-family:'Share Tech Mono', monospace;
+  font-size:.45rem;
+  letter-spacing:.15em;
+  color:#444;
+  margin-top:.15rem;
+}
+.counter-sep {
+  font-family:'Share Tech Mono', monospace;
+  font-size:clamp(1rem,2vw,1.5rem);
+  color:#333;
+  padding-bottom:.3rem;
+  animation: blink .9s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity:0; } }
+
+/* TITULAR */
+.headline {
+  font-size: clamp(2rem, 6.5vw, 5rem);
+  line-height:.95;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  color:#fff;
+  text-align:center;
+  opacity:0; transform:translateY(40px);
+  animation: riseIn 1s cubic-bezier(.22,1,.36,1) .8s forwards;
+  text-shadow:
+    0 0 40px rgba(200,20,20,.55),
+    0 0 100px rgba(200,20,20,.2),
+    0 4px 8px rgba(0,0,0,.95),
+    0 16px 40px rgba(0,0,0,.7);
+  user-select:none;
+}
+.headline .accent { color: var(--red2); font-style:italic; }
+.headline.glitch {
+  animation: glitchAnim .35s steps(2) forwards !important;
+}
+@keyframes glitchAnim {
+  0%  { text-shadow: 6px 0 var(--red2), -6px 0 var(--cyan), 0 4px 8px rgba(0,0,0,.95); transform:skewX(-2deg); }
+  25% { text-shadow:-6px 0 var(--red2), 6px 0 var(--cyan), 0 4px 8px rgba(0,0,0,.95); transform:skewX(2deg); }
+  50% { text-shadow: 4px 0 var(--cyan), -4px 0 var(--red2), 0 4px 8px rgba(0,0,0,.95); transform:skewX(-1deg); }
+  75% { text-shadow:-3px 0 var(--cyan), 3px 0 var(--red2), 0 4px 8px rgba(0,0,0,.95); transform:skewX(0); }
+  100%{ text-shadow: 0 0 40px rgba(200,20,20,.55), 0 0 100px rgba(200,20,20,.2), 0 4px 8px rgba(0,0,0,.95); transform:skewX(0); }
+}
+@keyframes riseIn { to { opacity:1; transform:translateY(0); } }
+
+/* DIVISOR */
+.divider {
+  display:flex; align-items:center; gap:1rem; width:min(600px,80vw);
+  margin:.5rem 0;
+  opacity:0; animation: fadeIn .6s ease 1.4s forwards;
+  color:#3a3a3a;
+  font-family:'Share Tech Mono', monospace;
+  font-size:.7rem; letter-spacing:.3em;
+}
+.divider::before, .divider::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(90deg, transparent, #2a2a2a);
+}
+.divider::after { background:linear-gradient(90deg, #2a2a2a, transparent); }
+
+/* BOTONES */
+.choices {
+  display:flex; gap:1.2rem;
+  opacity:0; animation: fadeIn .8s ease 1.6s forwards;
+}
+.btn {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:clamp(.8rem,1.8vw,1.1rem);
+  letter-spacing:.1em;
+  padding:.5em 1.6em;
+  border:1px solid #333;
+  background:rgba(255,255,255,.03);
+  color:#555;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition: color .2s, border-color .2s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn::before {
+  content:''; position:absolute; inset:0;
+  background: var(--fill, rgba(200,20,20,0));
+  transition: background .3s;
+  z-index:0;
+}
+.btn span { position:relative; z-index:1; }
+.btn:hover {
+  border-color: var(--hcol, #cc1111);
+  color:#fff;
+}
+.btn:hover::before { background: var(--hfill, rgba(200,20,20,.15)); }
+
+.btn-iran  { --hcol:#00c853; --hfill:rgba(0,150,60,.15); }
+.btn-epstein { --hcol:#cc1111; --hfill:rgba(200,20,20,.15); }
+
+/* ALERT / RESULTADO */
+.result-overlay {
+  position:fixed; inset:0; z-index:50;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0);
+  pointer-events:none;
+  transition: background .4s;
+}
+.result-overlay.show {
+  pointer-events:all;
+  background:rgba(0,0,0,.85);
+}
+.result-box {
+  font-family:'Share Tech Mono', monospace;
+  font-size:clamp(.8rem,2vw,1.1rem);
+  color:#fff;
+  text-align:center;
+  line-height:1.6;
+  letter-spacing:.05em;
+  max-width:560px;
+  padding:2.5rem;
+  border:1px solid #333;
+  background:rgba(5,5,8,.95);
+  opacity:0;
+  transform:scale(.88);
+  transition: opacity .4s ease .1s, transform .4s ease .1s;
+}
+.result-overlay.show .result-box { opacity:1; transform:scale(1); }
+.result-box .big { font-family:'Bebas Neue'; font-size:clamp(2rem,6vw,4rem); letter-spacing:.05em; display:block; }
+.result-box .note { font-size:.75rem; color:#555; margin-top:1rem; display:block; letter-spacing:.12em; }
+.result-box .close-btn {
+  margin-top:1.8rem;
+  display:inline-block;
+  font-family:'Bebas Neue';
+  font-size:1.1rem;
+  letter-spacing:.15em;
+  color:#333;
+  border:1px solid #222;
+  padding:.4em 1.6em;
+  cursor:pointer;
+  transition:color .2s, border-color .2s;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+}
+.result-box .close-btn:hover { color:#fff; border-color:#555; }
+
+/* STATUS BAR */
+.statusbar {
+  position:fixed; bottom:1.2rem; left:0; right:0;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 2rem; z-index:11;
+  font-family:'Share Tech Mono', monospace;
+  font-size:.6rem; letter-spacing:.18em; color:#252525;
+  opacity:0; animation: fadeIn 1s ease 2s forwards;
+}
+.statusbar .pulse {
+  display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--red); margin-right:.5rem;
+  animation: pulseDot 1.4s ease infinite;
+}
+@keyframes pulseDot {
+  0%,100%{box-shadow:0 0 0 0 rgba(200,20,20,.6)}
+  50%{box-shadow:0 0 0 6px rgba(200,20,20,0)}
+}
+@keyframes fadeIn { to { opacity:1; } }
+
+/* MOUSE TRACKER LINES */
+#crosshair {
+  position:fixed; inset:0; z-index:5; pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<canvas id="fractalCanvas"></canvas>
+<canvas id="particleCanvas"></canvas>
+<canvas id="crosshair"></canvas>
+<div class="grain"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<!-- UI -->
+<div class="ui">
+  <div class="classification">⬛ CLASIFICADO — NIVEL OMEGA — ACCESO DENEGADO ⬛</div>
+
+  <!-- CONTADOR FALSO -->
+  <div class="counter-wrap">
+    <div class="counter-block">
+      <span class="digits" id="cd-d">--</span>
+      <span class="label">DÍAS</span>
+    </div>
+    <span class="counter-sep">:</span>
+    <div class="counter-block">
+      <span class="digits" id="cd-h">--</span>
+      <span class="label">HORAS</span>
+    </div>
+    <span class="counter-sep">:</span>
+    <div class="counter-block">
+      <span class="digits" id="cd-m">--</span>
+      <span class="label">MIN</span>
+    </div>
+    <span class="counter-sep">:</span>
+    <div class="counter-block">
+      <span class="digits" id="cd-s">--</span>
+      <span class="label">SEG</span>
+    </div>
+  </div>
+
+  <h1 class="headline" id="headline">
+    ¿Estás con<br>
+    <span class="accent">Irán</span><br>
+    o estás con<br>
+    <span class="accent">Epstein?</span>
+  </h1>
+
+  <div class="divider">PROTOCOLO DE SELECCIÓN ACTIVO</div>
+
+  <div class="choices">
+    <button class="btn btn-iran" onclick="choose('iran')"><span>▶ IRÁN</span></button>
+    <button class="btn btn-epstein" onclick="choose('epstein')"><span>▶ EPSTEIN</span></button>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="statusbar">
+  <span><span class="pulse"></span>TRANSMISIÓN EN VIVO</span>
+  <span id="coords">LAT:00.0000 LON:00.0000</span>
+  <span id="ts">SYS://INIT</span>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-box" id="resultBox">
+    <span class="big" id="resultTitle">—</span>
+    <span id="resultText">—</span>
+    <span class="note" id="resultNote">—</span>
+    <div class="close-btn" onclick="closeResult()">[ VOLVER AL PROTOCOLO ]</div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// SIERPINSKI TRIANGLE FRACTAL — CHAOS GAME
+// ════════════════════════════════════════════════
+const fc = document.getElementById('fractalCanvas');
+const fctx = fc.getContext('2d');
+
+function resizeAll() {
+  fc.width = window.innerWidth; fc.height = window.innerHeight;
+  ch.width = window.innerWidth; ch.height = window.innerHeight;
+  pc.width = window.innerWidth; pc.height = window.innerHeight;
+}
+
+// Chaos game Sierpinski
+let sPoints = [];
+let sFrame = 0;
+const BATCH = 600;
+
+function initSierpinski() {
+  fctx.clearRect(0,0,fc.width,fc.height);
+  sPoints = [];
+  const cx = fc.width/2, cy = fc.height/2;
+  const r  = Math.min(fc.width, fc.height) * 0.46;
+  // 3 vértices del triángulo
+  window._tri = [
+    {x: cx,                    y: cy - r},
+    {x: cx - r*Math.sin(Math.PI/3)*1.15, y: cy + r*0.5},
+    {x: cx + r*Math.sin(Math.PI/3)*1.15, y: cy + r*0.5},
+  ];
+  // punto inicial aleatorio
+  sPoints.push({x: cx, y: cy});
+}
+
+function drawSierpinski() {
+  const tri = window._tri;
+  if(!tri) return;
+  const totalTarget = Math.min(80000, Math.floor(fc.width * fc.height / 12));
+
+  if (sPoints.length < totalTarget) {
+    let p = sPoints[sPoints.length-1];
+    for(let i=0; i<BATCH; i++) {
+      const v = tri[Math.floor(Math.random()*3)];
+      p = { x:(p.x+v.x)/2, y:(p.y+v.y)/2 };
+      sPoints.push(p);
+    }
+  }
+
+  // Redibuja todo con fade periódico
+  if(sFrame % 180 === 0) {
+    fctx.fillStyle = 'rgba(5,5,8,0.06)';
+    fctx.fillRect(0,0,fc.width,fc.height);
+  }
+
+  // Dibuja los nuevos puntos
+  const start = Math.max(0, sPoints.length - BATCH);
+  for(let i=start; i<sPoints.length; i++){
+    const p = sPoints[i];
+    // color según posición: frío arriba, rojo abajo
+    const ny = p.y / fc.height;
+    const r  = Math.floor(80  + ny * 120);
+    const g  = Math.floor(5   + ny * 5);
+    const b  = Math.floor(120 - ny * 90);
+    fctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
+    fctx.fillRect(p.x, p.y, 1, 1);
+  }
+
+  // Pulso lento: ocasionalmente "respira"
+  if(sFrame % 300 === 0 && sPoints.length >= totalTarget) {
+    fctx.fillStyle = 'rgba(5,5,8,0.35)';
+    fctx.fillRect(0,0,fc.width,fc.height);
+    sPoints = sPoints.slice(-5000);
+  }
+  sFrame++;
+}
+
+// ════════════════════════════════════════════════
+// PARTÍCULAS CAÓTICAS
+// ════════════════════════════════════════════════
+const pc = document.getElementById('particleCanvas');
+const pctx = pc.getContext('2d');
+
+const particles = Array.from({length:120}, () => spawnParticle());
+function spawnParticle() {
+  return {
+    x: Math.random()*window.innerWidth,
+    y: Math.random()*window.innerHeight,
+    vx:(Math.random()-.5)*.6,
+    vy:(Math.random()-.5)*.6,
+    size:.4+Math.random()*1.6,
+    alpha:.05+Math.random()*.35,
+    col: Math.random()<.5 ? `rgba(200,20,20,` : `rgba(80,80,130,`,
+    life:0, maxLife:300+Math.random()*400,
+  };
+}
+function drawParticles() {
+  pctx.clearRect(0,0,pc.width,pc.height);
+  particles.forEach((p,i) => {
+    p.x+=p.vx; p.y+=p.vy; p.life++;
+    if(p.x<0||p.x>pc.width||p.y<0||p.y>pc.height||p.life>p.maxLife){
+      particles[i]=spawnParticle();
+      return;
+    }
+    const fade = Math.sin(Math.PI * p.life/p.maxLife);
+    pctx.globalAlpha = p.alpha * fade;
+    pctx.fillStyle = p.col + p.alpha*fade + ')';
+    pctx.beginPath();
+    pctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    pctx.fill();
+  });
+  pctx.globalAlpha=1;
+}
+
+// ════════════════════════════════════════════════
+// CROSSHAIR MOUSE
+// ════════════════════════════════════════════════
+const ch = document.getElementById('crosshair');
+const chctx = ch.getContext('2d');
+let mx=0,my=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+
+function drawCrosshair() {
+  chctx.clearRect(0,0,ch.width,ch.height);
+  chctx.strokeStyle='rgba(200,20,20,.18)';
+  chctx.lineWidth=1;
+  chctx.setLineDash([4,8]);
+  // horizontal
+  chctx.beginPath(); chctx.moveTo(0,my); chctx.lineTo(ch.width,my); chctx.stroke();
+  // vertical
+  chctx.beginPath(); chctx.moveTo(mx,0); chctx.lineTo(mx,ch.height); chctx.stroke();
+  chctx.setLineDash([]);
+  // círculo central
+  chctx.strokeStyle='rgba(200,20,20,.3)';
+  chctx.beginPath(); chctx.arc(mx,my,12,0,Math.PI*2); chctx.stroke();
+  chctx.beginPath(); chctx.arc(mx,my,3,0,Math.PI*2); chctx.stroke();
+}
+
+// ════════════════════════════════════════════════
+// CONTADOR FALSO — CAÓTICO
+// ════════════════════════════════════════════════
+// Target: fecha arbitraria misteriosa en el futuro
+const target = new Date('2025-07-04T00:00:00');
+// Añadimos un offset caótico que se resetea cada recarga
+const chaosOffset = Math.floor(Math.random()*8640000)*1000; // ±100 días random
+
+function updateCounter() {
+  const now  = new Date(Date.now() + chaosOffset);
+  let diff   = target - now;
+  if(diff < 0) diff = Math.abs(diff) + 86400000*333; // nunca llega a 0
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000)  / 60000);
+  const s = Math.floor((diff % 60000)    / 1000);
+
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('cd-d').textContent = pad(d % 999);
+  document.getElementById('cd-h').textContent = pad(h);
+  document.getElementById('cd-m').textContent = pad(m);
+  document.getElementById('cd-s').textContent = pad(s);
+
+  // Glitch ocasional en los dígitos
+  if(Math.random()<.01) {
+    const el = document.getElementById('cd-s');
+    el.style.color='#00e5ff';
+    setTimeout(()=>el.style.color='',120);
+  }
+}
+
+// ════════════════════════════════════════════════
+// STATUS BAR
+// ════════════════════════════════════════════════
+function updateStatus() {
+  // coords que fluctúan levemente
+  const lat = (33.8869 + (Math.random()-.5)*.001).toFixed(4);
+  const lon = (35.5131 + (Math.random()-.5)*.001).toFixed(4);
+  document.getElementById('coords').textContent = `LAT:${lat} LON:${lon}`;
+  const t = new Date();
+  document.getElementById('ts').textContent =
+    `SYS://${t.getHours().toString().padStart(2,'0')}${t.getMinutes().toString().padStart(2,'0')}${t.getSeconds().toString().padStart(2,'0')}Z`;
+}
+
+// ════════════════════════════════════════════════
+// GLITCH ALEATORIO EN TITULAR
+// ════════════════════════════════════════════════
+const hl = document.getElementById('headline');
+function randomGlitch() {
+  hl.classList.add('glitch');
+  setTimeout(()=>hl.classList.remove('glitch'), 400);
+  setTimeout(randomGlitch, 4000 + Math.random()*8000);
+}
+setTimeout(randomGlitch, 3000);
+
+// ════════════════════════════════════════════════
+// ELECCIONES
+// ════════════════════════════════════════════════
+const responses = {
+  iran: [
+    {
+      title:'ALIANZA CONFIRMADA',
+      text:'Tu posición ha sido registrada.\nEnlace satelital encriptado activo.',
+      note:'// ADVERTENCIA: Esta elección ha sido reportada a 14 agencias //\n// Presione CTRL+Z para olvidar que estuvo aquí //',
+      color:'#00c853'
+    },
+    {
+      title:'SORPRESA',
+      text:'Bien. Pero recuerda:\nEpstein tampoco estaba solo.',
+      note:'// Ninguna elección es inocente //',
+      color:'#00c853'
+    }
+  ],
+  epstein: [
+    {
+      title:'REGISTRO ACTUALIZADO',
+      text:'Su fidelidad ha sido anotada.\nLa lista ya tiene su nombre.',
+      note:'// No. No era un suicidio. //\n// Sí. Usted lo sabe. //',
+      color:'#cc1111'
+    },
+    {
+      title:'ERROR 404',
+      text:'La pregunta correcta no tenía\nesta opción.',
+      note:'// ¿Seguro que eligió bien? //',
+      color:'#cc1111'
+    }
+  ]
+};
+
+function choose(side) {
+  const pool = responses[side];
+  const r    = pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('resultTitle').textContent = r.title;
+  document.getElementById('resultTitle').style.color = r.color;
+  document.getElementById('resultText').textContent  = r.text;
+  document.getElementById('resultNote').textContent  = r.note;
+
+  // Screen shake
+  document.body.style.animation='none';
+  const shake = [
+    {transform:'translate(-4px,-2px)'},{transform:'translate(4px,2px)'},
+    {transform:'translate(-3px,3px)'},{transform:'translate(3px,-3px)'},
+    {transform:'translate(0,0)'}
+  ];
+  document.body.animate(shake, {duration:300, iterations:1});
+
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+function closeResult() {
+  document.getElementById('resultOverlay').classList.remove('show');
+  // glitch al volver
+  hl.classList.add('glitch');
+  setTimeout(()=>hl.classList.remove('glitch'),400);
+}
+
+// ════════════════════════════════════════════════
+// LOOP PRINCIPAL
+// ════════════════════════════════════════════════
+function loop() {
+  drawSierpinski();
+  drawParticles();
+  drawCrosshair();
+  requestAnimationFrame(loop);
+}
+
+window.addEventListener('resize', ()=>{ resizeAll(); initSierpinski(); });
+resizeAll();
+initSierpinski();
+setInterval(updateCounter, 1000);
+setInterval(updateStatus,  150);
+updateCounter();
+loop();
+</script>
+</body>
+</html>
