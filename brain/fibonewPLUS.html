@@ -4,48 +4,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <style>
         body { margin: 0; background: #000; overflow: hidden; font-family: sans-serif; }
-        #controls { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); padding: 10px 15px; border-radius: 8px; border: 1px solid #444; color: white; cursor: pointer; user-select: none; z-index: 100; }
+        #ui { 
+            position: absolute; top: 20px; left: 20px; 
+            padding: 10px 20px; background: rgba(0,0,0,0.5); 
+            color: #0f0; border: 1px solid #0f0; border-radius: 5px;
+            cursor: pointer; z-index: 100; letter-spacing: 2px;
+            font-size: 12px; transition: 0.3s;
+        }
+        #ui:hover { background: #0f0; color: #000; }
     </style>
 </head>
 <body>
-    <div id="controls" onclick="toggleMovement()">FLUJO: <span id="moveStatus">CONTINUO</span></div>
+    <div id="ui" onclick="toggleMovement()">FIBONACCI: <span id="status">ACTIVO</span></div>
     <script>
         let totalPoints = 14400; 
         const baseGoldenAngle = 137.508;
         let movement = true; 
-        let angleOffset = 0;
+        let offset = 0;
 
         function setup() {
             createCanvas(windowWidth, windowHeight, WEBGL);
             colorMode(HSB);
-            // Forzamos un renderizado más suave
-            pixelDensity(1); 
+            pixelDensity(1);
         }
 
         function draw() {
+            // Fondo con un toque de "estela" (transparencia sutil)
+            // Esto es lo que da la sensación de fluidez extrema al aumentar la velocidad
             background(0);
             
-            // Si el movimiento está activo, incrementamos un contador suave
             if (movement) {
-                angleOffset += 0.0015; 
+                // AUMENTO DE VELOCIDAD (Fase Cinética)
+                offset += 0.005; 
             }
 
-            // --- CÁMARA ULTRA ESTABLE ---
-            let camZ = movement ? sin(angleOffset * 0.8) * 50 : 0;
+            // Cámara inmersiva
+            let camZ = movement ? sin(offset * 0.5) * 100 : 0;
             camera(0, 0, camZ, 0, 0, -1, 0, 1, 0);
 
-            // --- ROTACIÓN DE SEDA ---
-            // Usamos angleOffset en lugar de frameCount para control total
-            rotateZ(angleOffset * 0.4); 
+            // Rotación rápida pero estable
+            rotateZ(offset * 0.8); 
 
-            // --- PULSACIÓN DEL ÁNGULO MICROSCÓPICA ---
-            let dynamicGoldenAngle = baseGoldenAngle + (movement ? sin(angleOffset * 1.2) * 0.01 : 0);
+            // Pulsación del ángulo (Genera patrones de Moiré que cambian rápido)
+            let dynamicAngle = baseGoldenAngle + (movement ? sin(offset * 1.5) * 0.02 : 0);
 
             for (let i = 0; i < totalPoints; i++) {
                 let h = i / totalPoints; 
-                let r = (pow(h, 0.75) * 480) + 10; 
-                let theta = i * dynamicGoldenAngle;
-                let z = (h - 0.5) * 950; 
+                let r = (pow(h, 0.7) * (width * 0.45)) + 10; 
+                let theta = i * dynamicAngle;
+                let z = (h - 0.5) * 1000; 
 
                 let x = r * cos(theta);
                 let y = r * sin(theta);
@@ -53,26 +60,22 @@
                 push();
                 translate(x, y, z);
 
-                // --- COLOR FLUIDO ---
-                let baseHue = movement ? map(sin(angleOffset * 0.7), -1, 1, 65, 165) : 110;
-                let hueValue = (baseHue + (h * 60)) % 360;
+                // Colores eléctricos
+                let baseHue = movement ? (frameCount * 0.2) % 360 : 110;
+                let hueValue = (baseHue + (h * 80)) % 360;
                 
-                let brightness = map(i, 0, totalPoints, 100, 30);
-                let saturation = map(h, 0, 1, 60, 95);
-
-                fill(hueValue, saturation, brightness);
+                fill(hueValue, 80, map(i, 0, totalPoints, 100, 20));
                 noStroke();
 
-                // Tamaño levemente más pequeño para dar "aire" y fluidez visual
-                let size = map(i, 0, totalPoints, 2, 6.5);
-                box(size); 
+                // Cajas ligeramente más estilizadas
+                box(map(i, 0, totalPoints, 2, 8)); 
                 pop();
             }
         }
 
         function toggleMovement() {
             movement = !movement;
-            document.getElementById('moveStatus').innerText = movement ? "CONTINUO" : "CONGELADO";
+            document.getElementById('status').innerText = movement ? "ACTIVO" : "ESTÁTICO";
         }
 
         function windowResized() {
