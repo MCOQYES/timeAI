@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spanish in 20 Minutes — Week 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --card: #1a1916;
+    --card2: #222018;
+    --border: #2e2c27;
+    --gold: #c9a84c;
+    --gold2: #e8c97a;
+    --text: #e8e4da;
+    --muted: #7a7568;
+    --accent: #d45f3c;
+    --green: #5a9e6f;
+    --blue: #4a7fb5;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(212,95,60,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .header h1 em {
+    color: var(--gold2);
+    font-style: italic;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Day selector */
+  .day-nav {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .day-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .day-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .day-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0f0e0c;
+    font-weight: 500;
+  }
+
+  /* Lesson card */
+  .lesson {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+  .lesson.active { display: block; }
+
+  .lesson-header {
+    margin-bottom: 28px;
+  }
+  .lesson-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .lesson-title span {
+    color: var(--gold2);
+    font-style: italic;
+  }
+  .lesson-subtitle {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* Section blocks */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .section::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .section.grammar::before { background: var(--gold); }
+  .section.vocab::before { background: var(--blue); }
+  .section.examples::before { background: var(--green); }
+  .section.exercise::before { background: var(--accent); }
+  .section.homework::before { background: var(--muted); }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section.grammar .section-label { color: var(--gold); }
+  .section.vocab .section-label { color: var(--blue); }
+  .section.examples .section-label { color: var(--green); }
+  .section.exercise .section-label { color: var(--accent); }
+  .section.homework .section-label { color: var(--muted); }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .section p {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: #c8c4ba;
+    margin-bottom: 10px;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  /* Grammar table */
+  .grammar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 0.88rem;
+  }
+  .grammar-table th {
+    background: rgba(201,168,76,0.08);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .grammar-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(46,44,39,0.5);
+    color: #c8c4ba;
+    line-height: 1.5;
+  }
+  .grammar-table tr:last-child td { border-bottom: none; }
+  .grammar-table td:first-child {
+    font-family: 'DM Mono', monospace;
+    color: var(--gold2);
+    font-size: 0.85rem;
+  }
+  .highlight-row td { background: rgba(201,168,76,0.04); }
+
+  /* Vocab grid */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .vocab-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .vocab-item:hover { border-color: var(--blue); }
+  .vocab-item.revealed .trans { display: block; }
+  .vocab-item .es {
+    font-family: 'DM Mono', monospace;
+    color: var(--gold2);
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+  .vocab-item .trans {
+    color: var(--muted);
+    font-size: 0.82rem;
+    display: none;
+  }
+  .vocab-item .hint {
+    color: var(--border);
+    font-size: 0.75rem;
+    font-style: italic;
+  }
+  .vocab-item.revealed .hint { display: none; }
+
+  /* Example sentences */
+  .example-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.88rem;
+  }
+  .example-pair:last-child { margin-bottom: 0; }
+  .example-es {
+    background: rgba(90,158,111,0.06);
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    color: var(--green);
+    border-right: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .example-en {
+    padding: 10px 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Exercises */
+  .exercise-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+  }
+  .exercise-item:last-child { margin-bottom: 0; }
+  .exercise-q {
+    font-size: 0.9rem;
+    color: #c8c4ba;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .exercise-q strong {
+    color: var(--gold2);
+    font-weight: 400;
+    font-family: 'DM Mono', monospace;
+  }
+  .exercise-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .opt-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .opt-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .opt-btn.correct { background: rgba(90,158,111,0.15); border-color: var(--green); color: var(--green); }
+  .opt-btn.wrong { background: rgba(212,95,60,0.12); border-color: var(--accent); color: var(--accent); }
+  .opt-btn:disabled { cursor: default; }
+  .feedback {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    font-style: italic;
+    min-height: 18px;
+    color: var(--muted);
+  }
+
+  /* Homework box */
+  .hw-box {
+    background: var(--card2);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 0.9rem;
+    color: #c8c4ba;
+    line-height: 1.75;
+  }
+  .hw-box ol, .hw-box ul {
+    padding-left: 18px;
+    margin-top: 8px;
+  }
+  .hw-box li { margin-bottom: 6px; }
+  .hw-box em { color: var(--gold2); font-style: normal; }
+
+  /* Recap badge */
+  .recap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s 0.05s ease both;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Nav buttons */
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+  }
+  .nav-btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .nav-btn.primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0f0e0c;
+    font-weight: 500;
+  }
+  .nav-btn.primary:hover:not(:disabled) { background: var(--gold2); border-color: var(--gold2); color: #0f0e0c; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Note blocks */
+  .note {
+    background: rgba(74,127,181,0.07);
+    border-left: 2px solid var(--blue);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    color: #a8b8cc;
+    margin: 10px 0;
+    line-height: 1.65;
+  }
+  .note strong { color: var(--blue); font-weight: 500; }
+
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.88em;
+    color: var(--gold2);
+    background: rgba(201,168,76,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  @media (max-width: 560px) {
+    .example-pair { grid-template-columns: 1fr; }
+    .example-es { border-right: none; border-bottom: 1px solid var(--border); }
+    .vocab-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-label">Week 1 · 7 Days · ~20 min each</div>
+    <h1>Spanish in <em>20 Minutes</em></h1>
+    <p>A structured daily course designed to build real Spanish from the ground up. Instructions in English, learning in Spanish.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:14.2%"></div></div>
+    <div class="progress-label" id="progressLabel">Day 1 / 7</div>
+  </div>
+
+  <div class="day-nav" id="dayNav">
+    <button class="day-btn active" onclick="goTo(0)">1</button>
+    <button class="day-btn" onclick="goTo(1)">2</button>
+    <button class="day-btn" onclick="goTo(2)">3</button>
+    <button class="day-btn" onclick="goTo(3)">4</button>
+    <button class="day-btn" onclick="goTo(4)">5</button>
+    <button class="day-btn" onclick="goTo(5)">6</button>
+    <button class="day-btn" onclick="goTo(6)">7</button>
+  </div>
+
+  <!-- ===================== DAY 1 ===================== -->
+  <div class="lesson active" id="lesson-0">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 1 · Week 1 — I exist</div>
+      <div class="lesson-title">Who are you? <span>¿Quién eres tú?</span></div>
+      <div class="lesson-subtitle">Pronouns · Ser (to be) · Greetings</div>
+    </div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>The verb <em>SER</em> — "to be" (permanent facts)</h3>
+      <p>Spanish has two verbs for "to be". Today we learn <code>ser</code>, used for identity, origin, and permanent qualities.</p>
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>Ser</th><th>English</th></tr>
+        <tr><td>yo</td><td>soy</td><td>I am</td></tr>
+        <tr class="highlight-row"><td>tú</td><td>eres</td><td>you are (informal)</td></tr>
+        <tr><td>él / ella</td><td>es</td><td>he / she is</td></tr>
+        <tr><td>nosotros/as</td><td>somos</td><td>we are</td></tr>
+        <tr><td>vosotros/as</td><td>sois</td><td>you all are (Spain)</td></tr>
+        <tr><td>ellos / ellas</td><td>son</td><td>they are</td></tr>
+      </table>
+      <div class="note"><strong>Key insight:</strong> Spanish often drops the pronoun because the verb ending tells you who's speaking. <code>Soy española</code> = <em>I am Spanish</em> — no need to say <em>yo</em>.</div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>7 words for today</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">hola</div><div class="trans">hello</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">me llamo</div><div class="trans">my name is</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">soy de</div><div class="trans">I am from</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">mucho gusto</div><div class="trans">nice to meet you</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">¿y tú?</div><div class="trans">and you?</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">también</div><div class="trans">also / too</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">encantada/o</div><div class="trans">delighted (to meet you)</div><div class="hint">tap to reveal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <h3>Real sentences you can use today</h3>
+      <div class="example-pair">
+        <div class="example-es">Hola, me llamo Ana. Soy de Mongolia.</div>
+        <div class="example-en">Hi, my name is Ana. I'm from Mongolia.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿De dónde eres tú?</div>
+        <div class="example-en">Where are you from?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Soy estudiante. Él es médico.</div>
+        <div class="example-en">I am a student. He is a doctor.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Mucho gusto. Yo también soy de Asia.</div>
+        <div class="example-en">Nice to meet you. I'm also from Asia.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Choose the correct form of <em>ser</em></h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Yo _____ de España. <br><em style="font-size:0.8rem;color:var(--muted)">I am from Spain.</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Try again — that\'s for tú')">eres</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Soy = I am')">soy</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s for él/ella')">es</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Ella _____ profesora. <br><em style="font-size:0.8rem;color:var(--muted)">She is a teacher.</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s for yo')">soy</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s for tú')">eres</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Muy bien! Es = he/she/it is')">es</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Nosotros _____ amigos. <br><em style="font-size:0.8rem;color:var(--muted)">We are friends.</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Somos = we are')">somos</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s for ellos/ellas')">son</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s for vosotros')">sois</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write <strong>3 sentences</strong> about yourself in Spanish using <em>ser</em>:<br>
+        <ol>
+          <li>Your name: <em>Me llamo ___.</em></li>
+          <li>Where you're from: <em>Soy de ___.</em></li>
+          <li>What you are (student, worker, etc.): <em>Soy ___.</em></li>
+        </ol>
+        <br>
+        <strong>Bonus:</strong> Write one sentence about someone else using <em>él es</em> or <em>ella es</em>.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" disabled>← Previous</button>
+      <button class="nav-btn primary" onclick="goTo(1)">Day 2 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 2 ===================== -->
+  <div class="lesson" id="lesson-1">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 2 · Week 1 — I exist</div>
+      <div class="lesson-title">How are you? <span>¿Cómo estás?</span></div>
+      <div class="lesson-subtitle">Estar (to be) · States & feelings · Ser vs Estar intro</div>
+    </div>
+
+    <div class="recap">↩ Day 1 recap: <strong>soy, eres, es, somos, sois, son</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>The verb <em>ESTAR</em> — "to be" (temporary states)</h3>
+      <p>This is the second "to be" verb. Use <code>estar</code> for how someone <em>feels</em>, where they <em>are</em>, or a temporary condition.</p>
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>Estar</th><th>English</th></tr>
+        <tr><td>yo</td><td>estoy</td><td>I am</td></tr>
+        <tr class="highlight-row"><td>tú</td><td>estás</td><td>you are</td></tr>
+        <tr><td>él / ella</td><td>está</td><td>he / she is</td></tr>
+        <tr><td>nosotros/as</td><td>estamos</td><td>we are</td></tr>
+        <tr><td>vosotros/as</td><td>estáis</td><td>you all are</td></tr>
+        <tr><td>ellos / ellas</td><td>están</td><td>they are</td></tr>
+      </table>
+      <div class="note"><strong>SER vs ESTAR in one line:</strong><br>
+      <code>Soy cansada</code> — weird (you're permanently tired?)<br>
+      <code>Estoy cansada</code> ✓ — I'm (currently) tired.<br>
+      <code>Soy española</code> ✓ — I'm Spanish (identity).<br>
+      <code>Estoy en Madrid</code> ✓ — I'm in Madrid (location).</div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Feelings & states</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">bien</div><div class="trans">well / good</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">mal</div><div class="trans">bad / not well</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">cansado/a</div><div class="trans">tired</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">contento/a</div><div class="trans">happy</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">ocupado/a</div><div class="trans">busy</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">aquí / allí</div><div class="trans">here / there</div><div class="hint">tap to reveal</div>
+        </div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')">
+          <div class="es">en casa</div><div class="trans">at home</div><div class="hint">tap to reveal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">¿Cómo estás? — Estoy bien, gracias.</div>
+        <div class="example-en">How are you? — I'm well, thank you.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Estoy un poco cansada hoy.</div>
+        <div class="example-en">I'm a little tired today.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Él está en casa. Ella está en el trabajo.</div>
+        <div class="example-en">He is at home. She is at work.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Estamos muy contentos aquí.</div>
+        <div class="example-en">We are very happy here.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>SER or ESTAR?</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"She is French." → Ella _____ francesa.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Nationality = SER')">es</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Nationality is permanent → SER')">está</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"I am in the park." → Yo _____ en el parque.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Location uses ESTAR')">soy</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Location = ESTAR')">estoy</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"They are happy." → Ellos _____ contentos.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Feelings are temporary → ESTAR')">son</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Muy bien! Feelings = ESTAR')">están</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Answer these questions in Spanish in full sentences:
+        <ol>
+          <li>¿Cómo estás hoy? <em>(How are you today?)</em></li>
+          <li>¿Dónde estás ahora? <em>(Where are you now?)</em></li>
+          <li>¿Eres estudiante o trabajas? <em>(Are you a student or do you work?)</em></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(0)">← Day 1</button>
+      <button class="nav-btn primary" onclick="goTo(2)">Day 3 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 3 ===================== -->
+  <div class="lesson" id="lesson-2">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 3 · Week 1 — I exist</div>
+      <div class="lesson-title">Numbers & time <span>Números y tiempo</span></div>
+      <div class="lesson-subtitle">Numbers 1–20 · Telling time · ¿Qué hora es?</div>
+    </div>
+
+    <div class="recap">↩ Day 2 recap: <strong>estoy, estás, está</strong> — feelings, states, location</div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>Telling time — <em>¿Qué hora es?</em></h3>
+      <p>Spanish tells time with <code>ser</code>. One o'clock uses <em>singular</em>, the rest use <em>plural</em>:</p>
+      <table class="grammar-table">
+        <tr><th>Spanish</th><th>English</th></tr>
+        <tr><td>Es la una.</td><td>It's one o'clock.</td></tr>
+        <tr class="highlight-row"><td>Son las dos.</td><td>It's two o'clock.</td></tr>
+        <tr><td>Son las tres y media.</td><td>It's half past three.</td></tr>
+        <tr><td>Son las cuatro y cuarto.</td><td>It's quarter past four.</td></tr>
+        <tr><td>Son las cinco menos cuarto.</td><td>It's quarter to five.</td></tr>
+      </table>
+      <div class="note"><strong>Pattern:</strong> <code>Son las [number] y [minutes]</code><br>
+      After 30 min you "subtract" from the next hour: <code>menos</code> = minus/to.</div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Numbers 1–20</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">uno / una</div><div class="trans">one</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">dos</div><div class="trans">two</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">tres</div><div class="trans">three</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">cuatro / cinco</div><div class="trans">four / five</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">seis / siete</div><div class="trans">six / seven</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">ocho / nueve</div><div class="trans">eight / nine</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">diez / once</div><div class="trans">ten / eleven</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">doce → veinte</div><div class="trans">twelve → twenty</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">¿Qué hora es? — Son las ocho.</div>
+        <div class="example-en">What time is it? — It's eight o'clock.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">La clase es a las diez y media.</div>
+        <div class="example-en">The class is at half past ten.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Tengo una reunión a las tres menos cuarto.</div>
+        <div class="example-en">I have a meeting at quarter to three.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Son las doce del mediodía.</div>
+        <div class="example-en">It's twelve noon.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>What time is it?</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">It's 3:00 → <strong>Son las _____.</strong></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s 2:00')">dos</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Son las tres.')">tres</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s 4:00')">cuatro</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">It's 1:00 → <strong>_____ la una.</strong></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Son is for all hours except 1:00')">Son</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Es la una — singular!')">Es</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">It's 6:30 → Son las seis y _____.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Cuarto = quarter past')">cuarto</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Media = half past')">media</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Menos = to/before')">menos</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write the time in Spanish for your daily routine:
+        <ol>
+          <li>What time do you wake up? <em>Me despierto a las ___.</em></li>
+          <li>What time do you eat lunch? <em>Como a las ___.</em></li>
+          <li>What time do you go to sleep? <em>Me duermo a las ___.</em></li>
+        </ol>
+        <strong>Bonus:</strong> Count from 1 to 20 out loud. Time yourself — aim for under 20 seconds.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(1)">← Day 2</button>
+      <button class="nav-btn primary" onclick="goTo(3)">Day 4 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 4 ===================== -->
+  <div class="lesson" id="lesson-3">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 4 · Week 1 — I exist</div>
+      <div class="lesson-title">Articles & gender <span>El género en español</span></div>
+      <div class="lesson-subtitle">El / La / Un / Una · Masculine & feminine nouns</div>
+    </div>
+
+    <div class="recap">↩ Day 3 recap: <strong>¿Qué hora es? Son las tres. Es la una.</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>All nouns have a gender</h3>
+      <p>In Spanish, every noun is either <em>masculine</em> or <em>feminine</em>. The article changes to match:</p>
+      <table class="grammar-table">
+        <tr><th>Type</th><th>Definite (the)</th><th>Indefinite (a/an)</th></tr>
+        <tr><td>Masculine</td><td>el libro</td><td>un libro</td></tr>
+        <tr class="highlight-row"><td>Feminine</td><td>la casa</td><td>una casa</td></tr>
+        <tr><td>Masc. plural</td><td>los libros</td><td>unos libros</td></tr>
+        <tr><td>Fem. plural</td><td>las casas</td><td>unas casas</td></tr>
+      </table>
+      <div class="note">
+        <strong>Shortcut rules (not absolute, but ~80% reliable):</strong><br>
+        Words ending in <code>-o</code> → usually masculine: <em>el libro, el año</em><br>
+        Words ending in <code>-a</code> → usually feminine: <em>la casa, la mesa</em><br>
+        Exceptions exist: <em>el día</em> (day) is masculine despite ending in -a!
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Everyday nouns with their articles</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el libro</div><div class="trans">the book (m)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">la mesa</div><div class="trans">the table (f)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el café</div><div class="trans">the coffee (m)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">la ciudad</div><div class="trans">the city (f)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el hombre</div><div class="trans">the man (m)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">la mujer</div><div class="trans">the woman (f)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el día</div><div class="trans">the day (m) ⚠️</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">El café está caliente.</div>
+        <div class="example-en">The coffee is hot.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">La ciudad es muy grande.</div>
+        <div class="example-en">The city is very big.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Necesito un libro y una mesa.</div>
+        <div class="example-en">I need a book and a table.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Los días son cortos en invierno.</div>
+        <div class="example-en">The days are short in winter.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>El, la, un or una?</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">_____ libro es interesante. <em>(The book is interesting.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Bien! El — masculine definite')">El</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','La is for feminine nouns')">La</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Un = a/an, not the')">Un</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Quiero _____ mesa nueva. <em>(I want a new table.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Un is for masculine')">un</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Una — feminine indefinite')">una</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','La = the, not a/an')">la</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">_____ mujeres son simpáticas. <em>(The women are nice.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Los is masculine plural')">Los</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Las — feminine plural')">Las</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','La is singular')">La</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Look around the room you're in right now. Write 5 objects in Spanish with their correct article:
+        <br><br>
+        Example: <em>la silla</em> (the chair), <em>el ordenador</em> (the computer)<br><br>
+        If you don't know the word, try to look it up — the act of searching reinforces memory.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(2)">← Day 3</button>
+      <button class="nav-btn primary" onclick="goTo(4)">Day 5 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 5 ===================== -->
+  <div class="lesson" id="lesson-4">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 5 · Week 1 — I exist</div>
+      <div class="lesson-title">I have & I want <span>Tener y querer</span></div>
+      <div class="lesson-subtitle">Tener · Querer · Expressing needs and desires</div>
+    </div>
+
+    <div class="recap">↩ Day 4 recap: <strong>el / la / un / una</strong> — nouns have gender in Spanish</div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>Two essential irregular verbs</h3>
+      <p><code>Tener</code> (to have) and <code>querer</code> (to want) are both irregular — memorize them as patterns.</p>
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>Tener (have)</th><th>Querer (want)</th></tr>
+        <tr class="highlight-row"><td>yo</td><td>tengo</td><td>quiero</td></tr>
+        <tr><td>tú</td><td>tienes</td><td>quieres</td></tr>
+        <tr><td>él / ella</td><td>tiene</td><td>quiere</td></tr>
+        <tr><td>nosotros</td><td>tenemos</td><td>queremos</td></tr>
+        <tr><td>ellos</td><td>tienen</td><td>quieren</td></tr>
+      </table>
+      <div class="note">
+        <strong>Tener</strong> is also used for age and some feelings:<br>
+        <code>Tengo 25 años</code> — I am 25 years old (lit. "I have 25 years")<br>
+        <code>Tengo hambre</code> — I'm hungry (lit. "I have hunger")
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Things you can have or want</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">hambre</div><div class="trans">hunger</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">sed</div><div class="trans">thirst</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">tiempo</div><div class="trans">time / weather</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">dinero</div><div class="trans">money</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">un perro / gato</div><div class="trans">a dog / cat</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">visitar</div><div class="trans">to visit</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">aprender</div><div class="trans">to learn</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Tengo hambre. ¿Tienes algo para comer?</div>
+        <div class="example-en">I'm hungry. Do you have something to eat?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Quiero aprender español bien.</div>
+        <div class="example-en">I want to learn Spanish well.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Tenemos un perro. Se llama Tobi.</div>
+        <div class="example-en">We have a dog. His name is Tobi.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿Cuántos años tienes? — Tengo veintidós.</div>
+        <div class="example-en">How old are you? — I'm twenty-two.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Fill the gap with tener or querer</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Yo _____ un apartamento en Madrid. <em>(I have an apartment in Madrid.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Tengo = I have')">tengo</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Quiero = I want, not have')">quiero</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Tienes = you have')">tienes</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Ella _____ visitar Mongolia. <em>(She wants to visit Mongolia.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Tiene = she has')">tiene</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Quiere = she wants')">quiere</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">¿Cuántos años _____ tú? <em>(How old are you?)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Eres = you are (ser)')">eres</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Muy bien! Tienes — age uses tener in Spanish')">tienes</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Estás = you are (estar)')">estás</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write 4 sentences using <em>tener</em> and <em>querer</em>:
+        <ol>
+          <li>Your age: <em>Tengo ___ años.</em></li>
+          <li>Something you have: <em>Tengo ___.</em></li>
+          <li>Something you want: <em>Quiero ___.</em></li>
+          <li>Something you want to do: <em>Quiero + infinitive verb</em></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(3)">← Day 4</button>
+      <button class="nav-btn primary" onclick="goTo(5)">Day 6 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 6 ===================== -->
+  <div class="lesson" id="lesson-5">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 6 · Week 1 — I exist</div>
+      <div class="lesson-title">My daily routine <span>Mi rutina diaria</span></div>
+      <div class="lesson-subtitle">Regular -ar verbs · Present tense · Reflexive intro</div>
+    </div>
+
+    <div class="recap">↩ Day 5 recap: <strong>tengo / tienes / tiene — quiero / quieres / quiere</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>Regular <em>-ar</em> verbs in present tense</h3>
+      <p>Most Spanish verbs end in <code>-ar</code>, <code>-er</code>, or <code>-ir</code>. Today we tackle <code>-ar</code> — the most common group. Take the verb, drop <code>-ar</code>, add these endings:</p>
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>Ending</th><th>Hablar (to speak)</th></tr>
+        <tr class="highlight-row"><td>yo</td><td>-o</td><td>hablo</td></tr>
+        <tr><td>tú</td><td>-as</td><td>hablas</td></tr>
+        <tr><td>él/ella</td><td>-a</td><td>habla</td></tr>
+        <tr><td>nosotros</td><td>-amos</td><td>hablamos</td></tr>
+        <tr><td>ellos</td><td>-an</td><td>hablan</td></tr>
+      </table>
+      <div class="note">
+        <strong>Same pattern for:</strong> <code>trabajar</code> (to work), <code>caminar</code> (to walk), <code>escuchar</code> (to listen), <code>cocinar</code> (to cook), <code>estudiar</code> (to study).<br>
+        Drop -ar → add ending. That's it.
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Daily routine verbs (-ar)</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">despertar(se)</div><div class="trans">to wake up</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">desayunar</div><div class="trans">to have breakfast</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">trabajar</div><div class="trans">to work</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">almorzar</div><div class="trans">to have lunch</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">cenar</div><div class="trans">to have dinner</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">estudiar</div><div class="trans">to study</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">acostarse</div><div class="trans">to go to bed</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Me despierto a las siete. Desayuno café.</div>
+        <div class="example-en">I wake up at seven. I have coffee for breakfast.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Trabajo en una oficina. Almuerzo con mis compañeros.</div>
+        <div class="example-en">I work in an office. I have lunch with my colleagues.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Por la noche, estudio español y ceno en casa.</div>
+        <div class="example-en">In the evening, I study Spanish and have dinner at home.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿A qué hora te acuestas normalmente?</div>
+        <div class="example-en">What time do you normally go to bed?</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Conjugate correctly</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Yo _____ (trabajar) en un hospital. <em>(I work in a hospital.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','That\'s the infinitive, not conjugated')">trabajar</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Yo + -ar verb → -o')">trabajo</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Trabajas = you work')">trabajas</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Ella _____ (estudiar) inglés. <em>(She studies English.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Estudio = I study')">estudio</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Ella → -a ending')">estudia</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Estudian = they study')">estudian</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Nosotros _____ (cenar) a las nueve. <em>(We have dinner at nine.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Nosotros → -amos')">cenamos</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Cenan = they have dinner')">cenan</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Cena = he/she has dinner')">cena</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write a short paragraph (4–5 sentences) describing your daily routine in Spanish. Use at least 4 different -ar verbs.<br><br>
+        Start with: <em>"Normalmente me despierto a las ___..."</em><br><br>
+        <strong>Challenge:</strong> Try to include a time expression for each activity.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(4)">← Day 5</button>
+      <button class="nav-btn primary" onclick="goTo(6)">Day 7 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 7 ===================== -->
+  <div class="lesson" id="lesson-6">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 7 · Week 1 — Review & speak</div>
+      <div class="lesson-title">Mini conversation <span>Una mini conversación</span></div>
+      <div class="lesson-subtitle">Week 1 review · Full dialogue · What comes next</div>
+    </div>
+
+    <div class="recap">↩ Week 1 in one line: <strong>ser · estar · numbers · gender · tener · querer · -ar verbs</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Week 1 Review</div>
+      <h3>Everything you now know</h3>
+      <table class="grammar-table">
+        <tr><th>Concept</th><th>Key example</th></tr>
+        <tr><td>Ser (identity)</td><td>Soy de Mongolia. Ella es profesora.</td></tr>
+        <tr><td>Estar (state/location)</td><td>Estoy bien. Está en casa.</td></tr>
+        <tr><td>Numbers & time</td><td>Son las tres y media.</td></tr>
+        <tr><td>Articles & gender</td><td>el libro / la mesa / un café / una ciudad</td></tr>
+        <tr><td>Tener</td><td>Tengo 25 años. Tiene hambre.</td></tr>
+        <tr><td>Querer</td><td>Quiero aprender español.</td></tr>
+        <tr><td>-ar verbs</td><td>Trabajo, estudio, ceno, hablo.</td></tr>
+      </table>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Full dialogue — read it out loud</div>
+      <h3>A real conversation using Week 1 tools</h3>
+      <div class="example-pair">
+        <div class="example-es">— Hola, me llamo Sarnai. ¿Y tú?</div>
+        <div class="example-en">Hi, my name is Sarnai. And you?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Me llamo Carlos. Mucho gusto, Sarnai.</div>
+        <div class="example-en">My name is Carlos. Nice to meet you, Sarnai.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— ¿De dónde eres? — Soy de Mongolia. ¿Y tú?</div>
+        <div class="example-en">Where are you from? — I'm from Mongolia. And you?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Soy de España. ¿Cuántos años tienes?</div>
+        <div class="example-en">I'm from Spain. How old are you?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Tengo veintiocho años. ¿Qué hora es?</div>
+        <div class="example-en">I'm twenty-eight. What time is it?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Son las seis. ¿Tienes hambre?</div>
+        <div class="example-en">It's six o'clock. Are you hungry?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Sí, quiero cenar. ¿Hay un restaurante aquí?</div>
+        <div class="example-en">Yes, I want to have dinner. Is there a restaurant here?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Sí, está cerca. ¡Vamos!</div>
+        <div class="example-en">Yes, it's nearby. Let's go!</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Final Exercise</div>
+      <h3>Week 1 challenge questions</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">How do you say "I'm hungry" in Spanish? <em>(Remember: Spanish uses tener!)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Estoy hambriento works too but the idiomatic form uses tener')">Estoy hambriento</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Tener hambre — to have hunger')">Tengo hambre</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Soy hambre doesn\'t work at all!')">Soy hambre</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"The women are happy." ¿Cuál es la traducción correcta?</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Las mujeres SON contentas — feelings need estar')">Las mujeres son contentas.</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Feelings → estar, mujeres → las')">Las mujeres están contentas.</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Los mujeres — mujeres is feminine!')">Los mujeres están contentos.</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Complete: Nosotros _____ (hablar) español todos los días.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Bravo! Nosotros + -ar → -amos')">hablamos</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Hablan = they speak')">hablan</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Hablas = you speak')">hablas</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Week 1 Final Task</div>
+      <div class="hw-box">
+        Write a short <strong>self-introduction paragraph</strong> in Spanish (6–8 sentences). Include:
+        <ol>
+          <li>Your name and where you're from</li>
+          <li>Your age</li>
+          <li>How you're feeling today</li>
+          <li>Where you are right now</li>
+          <li>What you want (to do/have)</li>
+          <li>Something about your daily routine</li>
+        </ol>
+        <br>
+        <strong>Week 2 preview:</strong> Next week we'll learn <em>-er/-ir verbs</em>, adjectives, and how to describe people and things in detail. ¡Hasta mañana!
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(5)">← Day 6</button>
+      <button class="nav-btn" disabled style="opacity:0.4">Week 2 coming soon →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentDay = 0;
+
+  function goTo(day) {
+    document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('lesson-' + day).classList.add('active');
+    document.querySelectorAll('.day-btn')[day].classList.add('active');
+    currentDay = day;
+    const pct = ((day + 1) / 7 * 100).toFixed(1);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = 'Day ' + (day + 1) + ' / 7';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function answer(btn, result, msg) {
+    const group = btn.closest('.exercise-options');
+    if (group.querySelector('.correct, .wrong')) return; // already answered
+    group.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    btn.classList.add(result);
+    const fb = btn.closest('.exercise-item').querySelector('.feedback');
+    fb.textContent = msg;
+    fb.style.color = result === 'correct' ? 'var(--green)' : 'var(--accent)';
+  }
+</script>
+</body>
+</html>
