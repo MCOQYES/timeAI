@@ -10,32 +10,22 @@
             --primary: #1a5f2a;
             --primary-dark: #0d3d1a;
             --secondary: #c9a227;
-            --secondary-light: #e8d5a3;
             --dark: #1a1a2e;
             --light: #f8f9fa;
-            --accent: #e63946;
             --text-gray: #555;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--dark);
             overflow-x: hidden;
             background: var(--light);
         }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            line-height: 1.2;
-        }
-        
-        /* Language Toggle */
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+
         .lang-toggle {
             position: fixed;
             top: 25px;
@@ -48,9 +38,8 @@
             border-radius: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.05);
         }
-        
+
         .lang-btn {
             border: none;
             background: transparent;
@@ -60,20 +49,17 @@
             border-radius: 25px;
             transition: all 0.3s ease;
             font-size: 14px;
-            letter-spacing: 0.5px;
         }
-        
+
         .lang-btn.active {
             background: var(--primary);
             color: white;
-            box-shadow: 0 2px 10px rgba(26, 95, 42, 0.3);
         }
-        
+
         .lang-btn:hover:not(.active) {
             background: rgba(26, 95, 42, 0.08);
         }
-        
-        /* Navigation */
+
         nav {
             position: fixed;
             top: 0;
@@ -86,21 +72,16 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         nav.scrolled {
             background: rgba(255,255,255,0.98);
             box-shadow: 0 2px 20px rgba(0,0,0,0.08);
             padding: 15px 50px;
         }
-        
-        nav.scrolled .logo {
-            color: var(--primary);
-        }
-        
-        nav.scrolled .nav-links a {
-            color: var(--dark);
-        }
-        
+
+        nav.scrolled .logo { color: var(--primary); }
+        nav.scrolled .nav-links a { color: var(--dark); }
+
         .logo {
             font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
@@ -109,22 +90,21 @@
             text-decoration: none;
             transition: color 0.3s;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 30px;
             list-style: none;
         }
-        
+
         .nav-links a {
             color: white;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
-            transition: opacity 0.3s;
             position: relative;
         }
-        
+
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -135,12 +115,9 @@
             background: var(--secondary);
             transition: width 0.3s;
         }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        /* Hero Section */
+
+        .nav-links a:hover::after { width: 100%; }
+
         .hero {
             height: 100vh;
             background: linear-gradient(135deg, rgba(26,95,42,0.85) 0%, rgba(26,26,46,0.9) 100%),
@@ -152,7 +129,7 @@
             color: white;
             position: relative;
         }
-        
+
         .hero::before {
             content: '';
             position: absolute;
@@ -162,13 +139,13 @@
             height: 200px;
             background: linear-gradient(to top, var(--light), transparent);
         }
-        
+
         .hero-content {
             z-index: 2;
             max-width: 900px;
             padding: 0 20px;
         }
-        
+
         .hero-badge {
             display: inline-block;
             padding: 8px 20px;
@@ -183,7 +160,7 @@
             text-transform: uppercase;
             animation: fadeInUp 1s ease;
         }
-        
+
         .hero h1 {
             font-size: clamp(3rem, 7vw, 6rem);
             margin-bottom: 25px;
@@ -191,7 +168,7 @@
             animation: fadeInUp 1s ease 0.1s both;
             letter-spacing: -1px;
         }
-        
+
         .hero p {
             font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             margin-bottom: 40px;
@@ -203,7 +180,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-        
+
         .hero-buttons {
             display: flex;
             gap: 20px;
@@ -211,7 +188,7 @@
             flex-wrap: wrap;
             animation: fadeInUp 1s ease 0.3s both;
         }
-        
+
         .hero-btn {
             display: inline-block;
             padding: 16px 40px;
@@ -225,37 +202,36 @@
             box-shadow: 0 4px 20px rgba(201, 162, 39, 0.4);
             border: 2px solid var(--secondary);
         }
-        
+
         .hero-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(201, 162, 39, 0.6);
         }
-        
+
         .hero-btn-outline {
             background: transparent;
             color: white;
             border: 2px solid rgba(255,255,255,0.5);
             box-shadow: none;
         }
-        
+
         .hero-btn-outline:hover {
             background: white;
             color: var(--dark);
             border-color: white;
         }
-        
-        /* Section Styles */
+
         section {
             padding: 100px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .section-header {
             text-align: center;
             margin-bottom: 60px;
         }
-        
+
         .section-title {
             font-size: clamp(2.2rem, 4vw, 3.2rem);
             margin-bottom: 15px;
@@ -263,7 +239,7 @@
             position: relative;
             display: inline-block;
         }
-        
+
         .section-title::after {
             content: '';
             display: block;
@@ -273,7 +249,7 @@
             margin: 15px auto 0;
             border-radius: 2px;
         }
-        
+
         .section-subtitle {
             font-size: 1.15rem;
             color: var(--text-gray);
@@ -281,14 +257,13 @@
             margin: 0 auto;
             line-height: 1.7;
         }
-        
-        /* Cards Grid */
+
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 35px;
         }
-        
+
         .card {
             background: white;
             border-radius: 24px;
@@ -298,20 +273,18 @@
             cursor: pointer;
             border: 1px solid rgba(0,0,0,0.04);
         }
-        
+
         .card:hover {
             transform: translateY(-12px) scale(1.02);
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
         }
-        
+
         .card-image {
             height: 260px;
-            background-size: cover;
-            background-position: center;
             position: relative;
             overflow: hidden;
         }
-        
+
         .card-image::before {
             content: '';
             position: absolute;
@@ -319,73 +292,65 @@
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
             z-index: 1;
         }
-        
+
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.6s ease;
         }
-        
+
         .card:hover .card-image img {
             transform: scale(1.1);
         }
-        
+
         .card-location {
             position: absolute;
             bottom: 15px;
             left: 20px;
             z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 6px;
             color: white;
             font-size: 0.85rem;
             font-weight: 500;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
-        
-        .card-content {
-            padding: 28px;
-        }
-        
+
+        .card-content { padding: 28px; }
+
         .card h3 {
             font-size: 1.5rem;
             margin-bottom: 12px;
             color: var(--dark);
         }
-        
+
         .card-description {
             color: var(--text-gray);
             line-height: 1.7;
             font-size: 0.95rem;
             margin-bottom: 18px;
         }
-        
+
         .card-details {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 18px;
         }
-        
+
         .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
             font-size: 0.8rem;
             color: #777;
             background: #f5f5f5;
             padding: 5px 12px;
             border-radius: 20px;
         }
-        
+
         .card-tags {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-        
+
         .tag {
             padding: 6px 14px;
             background: rgba(26, 95, 42, 0.08);
@@ -394,13 +359,12 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-        
+
         .tag.highlight {
             background: var(--secondary);
             color: var(--dark);
         }
-        
-        /* Stats Section */
+
         .stats-section {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
@@ -408,18 +372,7 @@
             position: relative;
             overflow: hidden;
         }
-        
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: rgba(201, 162, 39, 0.1);
-            border-radius: 50%;
-        }
-        
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -427,14 +380,8 @@
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
-        
-        .stat-item {
-            padding: 20px;
-        }
-        
+
         .stat-number {
             font-size: 3.5rem;
             font-weight: 700;
@@ -442,33 +389,23 @@
             margin-bottom: 8px;
             font-family: 'Playfair Display', serif;
         }
-        
+
         .stat-label {
             font-size: 1rem;
             opacity: 0.9;
             font-weight: 300;
         }
-        
-        /* Culture Section */
+
         .culture-section {
             background: var(--dark);
             color: white;
             padding: 100px 20px;
-            position: relative;
         }
-        
-        .culture-section .section-title {
-            color: var(--secondary);
-        }
-        
-        .culture-section .section-title::after {
-            background: var(--secondary);
-        }
-        
-        .culture-section .section-subtitle {
-            color: rgba(255,255,255,0.7);
-        }
-        
+
+        .culture-section .section-title { color: var(--secondary); }
+        .culture-section .section-title::after { background: var(--secondary); }
+        .culture-section .section-subtitle { color: rgba(255,255,255,0.7); }
+
         .culture-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -476,7 +413,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .culture-item {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
@@ -484,39 +421,37 @@
             padding: 40px 30px;
             text-align: center;
             transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
         }
-        
+
         .culture-item:hover {
             background: rgba(255,255,255,0.08);
             transform: translateY(-5px);
             border-color: rgba(201, 162, 39, 0.3);
         }
-        
+
         .culture-icon {
             font-size: 3.5rem;
             margin-bottom: 25px;
             display: block;
         }
-        
+
         .culture-item h3 {
             font-size: 1.4rem;
             margin-bottom: 15px;
             color: var(--secondary);
         }
-        
+
         .culture-item p {
             color: rgba(255,255,255,0.75);
             line-height: 1.7;
             font-size: 0.95rem;
         }
-        
-        /* Gallery Section */
+
         .gallery-section {
             padding: 100px 20px;
             background: white;
         }
-        
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -524,7 +459,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .gallery-item {
             position: relative;
             border-radius: 20px;
@@ -532,18 +467,18 @@
             height: 280px;
             cursor: pointer;
         }
-        
+
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .gallery-item:hover img {
             transform: scale(1.1);
         }
-        
+
         .gallery-overlay {
             position: absolute;
             inset: 0;
@@ -554,29 +489,28 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .gallery-item:hover .gallery-overlay {
             opacity: 1;
         }
-        
+
         .gallery-overlay h4 {
             color: white;
             font-size: 1.2rem;
         }
-        
-        /* CTA Section */
+
         .cta-section {
             background: linear-gradient(135deg, var(--secondary) 0%, #b8941f 100%);
             padding: 80px 20px;
             text-align: center;
             color: var(--dark);
         }
-        
+
         .cta-section h2 {
             font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 20px;
         }
-        
+
         .cta-section p {
             font-size: 1.2rem;
             margin-bottom: 30px;
@@ -585,7 +519,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-        
+
         .cta-btn {
             display: inline-block;
             padding: 18px 50px;
@@ -596,41 +530,33 @@
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
-        
+
         .cta-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
-        
-        /* Footer */
+
         footer {
             background: var(--dark);
             color: white;
             text-align: center;
             padding: 50px 20px 30px;
-            border-top: 1px solid rgba(255,255,255,0.05);
         }
-        
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
+
         .footer-logo {
             font-family: 'Playfair Display', serif;
             font-size: 2rem;
             margin-bottom: 15px;
             color: var(--secondary);
         }
-        
+
         footer p {
             opacity: 0.7;
             font-size: 1rem;
             line-height: 1.6;
         }
-        
+
         .footer-bottom {
             margin-top: 30px;
             padding-top: 20px;
@@ -638,91 +564,44 @@
             font-size: 0.85rem;
             opacity: 0.5;
         }
-        
-        /* Animations */
+
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .fade-in {
             opacity: 0;
             transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
+
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--light);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 5px;
-        }
-        
-        /* Responsive */
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--light); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; }
+
         @media (max-width: 768px) {
-            .lang-toggle {
-                top: 15px;
-                right: 15px;
-            }
-            
-            nav {
-                padding: 15px 20px;
-            }
-            
-            nav.scrolled {
-                padding: 12px 20px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            section {
-                padding: 60px 15px;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .hero-btn {
-                width: 80%;
-                text-align: center;
-            }
+            .lang-toggle { top: 15px; right: 15px; }
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            .cards-grid { grid-template-columns: 1fr; }
+            section { padding: 60px 15px; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .hero-btn { width: 80%; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- Language Toggle -->
     <div class="lang-toggle">
         <button class="lang-btn active" onclick="setLanguage('es')" data-lang="es">ES</button>
         <button class="lang-btn" onclick="setLanguage('en')" data-lang="en">EN</button>
     </div>
 
-    <!-- Navigation -->
     <nav id="navbar">
         <a href="#" class="logo">Nariño</a>
         <ul class="nav-links">
@@ -733,7 +612,6 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-badge" data-es="Descubre Colombia" data-en="Discover Colombia">Descubre Colombia</div>
@@ -749,7 +627,6 @@
         </div>
     </section>
 
-    <!-- Destinations Section -->
     <section id="destinos">
         <div class="section-header">
             <h2 class="section-title fade-in" data-es="Lugares Imperdibles" data-en="Must-Visit Places">Lugares Imperdibles</h2>
@@ -759,12 +636,11 @@
                Desde lagunas sagradas hasta santuarios que desafían la gravedad, cada rincón de Nariño es una aventura esperando ser vivida.
             </p>
         </div>
-        
+
         <div class="cards-grid">
-            <!-- Card 1: Laguna de la Cocha -->
             <div class="card fade-in">
                 <div class="card-image">
-                    <img src="https://airial.travel/_next/image?url=https%3A%2F%2Fmedia-cdn.tripadvisor.com%2Fmedia%2Fphoto-w%2F0b%2F87%2Fba%2F0f%2Fphoto1jpg.jpg&w=3840&q=75" alt="Laguna de la Cocha">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Laguna_de_la_cocha.jpg/800px-Laguna_de_la_cocha.jpg" alt="Laguna de la Cocha">
                     <div class="card-location">📍 El Encano, Nariño</div>
                 </div>
                 <div class="card-content">
@@ -785,8 +661,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Card 2: Santuario de Las Lajas -->
+
             <div class="card fade-in">
                 <div class="card-image">
                     <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/24/44/11/santuario-de-las-lajas.jpg?w=900&h=500&s=1" alt="Santuario de Las Lajas">
@@ -810,8 +685,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Card 3: Volcán Galeras -->
+
             <div class="card fade-in">
                 <div class="card-image">
                     <img src="https://colombia.travel/sites/default/files/styles/imagen_350x350/public/banner-volcan-galeras.jpg.webp?itok=7-E-P96U" alt="Volcán Galeras">
@@ -835,8 +709,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Card 4: Volcán Cumbal + Laguna La Bolsa -->
+
             <div class="card fade-in">
                 <div class="card-image">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Laguna_de_Cumbal.jpg/1280px-Laguna_de_Cumbal.jpg" alt="Volcán Cumbal y Laguna La Bolsa">
@@ -860,8 +733,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Card 5: San Juan de Pasto -->
+
             <div class="card fade-in">
                 <div class="card-image">
                     <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/64/b3/ca/20161022-164055-largejpg.jpg?w=1200&h=-1&s=1" alt="Centro Histórico de Pasto">
@@ -885,8 +757,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Card 6: Volcán Azufral + Laguna Verde -->
+
             <div class="card fade-in">
                 <div class="card-image">
                     <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/ae/c4/f3/laguna-verde-volcan-azufral.jpg?w=1200&h=-1&s=1" alt="Volcán Azufral y Laguna Verde">
@@ -910,8 +781,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Card 7: Reserva La Planada -->
+
             <div class="card fade-in">
                 <div class="card-image">
                     <img src="https://wwfint.awsassets.panda.org/img/original/la_planada_ep.jpg" alt="Reserva Natural La Planada">
@@ -938,7 +808,6 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section class="stats-section">
         <div class="stats-grid">
             <div class="stat-item fade-in">
@@ -960,7 +829,6 @@
         </div>
     </section>
 
-    <!-- Culture Section -->
     <section class="culture-section" id="cultura">
         <div class="section-header">
             <h2 class="section-title fade-in" data-es="Cultura y Tradición" data-en="Culture & Tradition">Cultura y Tradición</h2>
@@ -970,7 +838,7 @@
                Nariño es tierra de artistas, músicos y guardianes de tradiciones milenarias que resisten el paso del tiempo.
             </p>
         </div>
-        
+
         <div class="culture-grid">
             <div class="culture-item fade-in">
                 <span class="culture-icon">🎭</span>
@@ -980,7 +848,7 @@
                    Patrimonio Cultural Inmaterial de la Humanidad desde 2009. Del 2 al 7 de enero, Pasto se transforma en la fiesta más grande del sur de Colombia. El Desfile Magno, los carros alegóricos, la música tradicional y la pintura de talco y carbón unen a una ciudad entera en celebración.
                 </p>
             </div>
-            
+
             <div class="culture-item fade-in">
                 <span class="culture-icon">🍲</span>
                 <h3 data-es="Gastronomía Única" data-en="Unique Gastronomy">Gastronomía Única</h3>
@@ -989,7 +857,7 @@
                    Empanadas de pipián (única receta en el mundo), cuy asado con maní, ají de maní, tortilla de maíz nuevo, y el famoso bizcocho de achira. Cada plato cuenta la historia de la fusión entre lo andino y lo amazónico.
                 </p>
             </div>
-            
+
             <div class="culture-item fade-in">
                 <span class="culture-icon">🏺</span>
                 <h3 data-es="Arte y Artesanías" data-en="Art & Crafts">Arte y Artesanías</h3>
@@ -998,7 +866,7 @@
                    El barniz de Pasto, técnica precolombina de la cultura Quillacinga, transforma la madera en objetos de arte con acabados brillantes. Los tejidos indígenas de la comunidad Awa y los tallados en madera de San Juan de Pasto completan esta rica tradición artesanal.
                 </p>
             </div>
-            
+
             <div class="culture-item fade-in">
                 <span class="culture-icon">☕</span>
                 <h3 data-es="Café de Altura" data-en="High Altitude Coffee">Café de Altura</h3>
@@ -1010,7 +878,6 @@
         </div>
     </section>
 
-    <!-- Gallery Section -->
     <section class="gallery-section" id="galeria">
         <div class="section-header">
             <h2 class="section-title fade-in" data-es="Galería Visual" data-en="Visual Gallery">Galería Visual</h2>
@@ -1020,7 +887,7 @@
                Un vistazo a los paisajes, tradiciones y momentos que hacen de Nariño un destino inolvidable.
             </p>
         </div>
-        
+
         <div class="gallery-grid">
             <div class="gallery-item fade-in">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/CARNAVAL_DE_NEGROS_Y_BLANCOS_2024.jpg" alt="Carnaval de Negros y Blancos">
@@ -1061,7 +928,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta-section" id="contacto">
         <h2 data-es="¿Listo para vivir Nariño?" data-en="Ready to experience Nariño?">¿Listo para vivir Nariño?</h2>
         <p data-es="Desde la cima del Cumbal hasta las aguas esmeralda del Azufral, una aventura única te espera en el sur de Colombia."
@@ -1071,7 +937,6 @@
         <a href="#" class="cta-btn" data-es="Planificar mi viaje" data-en="Plan my trip">Planificar mi viaje</a>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">Nariño</div>
@@ -1086,12 +951,11 @@
     </footer>
 
     <script>
-        // Language Switching
         function setLanguage(lang) {
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
-            
+
             document.querySelectorAll('[data-es][data-en]').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(10px)';
@@ -1101,29 +965,20 @@
                     el.style.transform = 'translateY(0)';
                 }, 200);
             });
-            
+
             document.documentElement.lang = lang;
         }
-        
-        // Scroll Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -60px 0px'
-        };
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
-        
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-        
-        // Navbar scroll effect
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -1132,8 +987,7 @@
                 navbar.classList.remove('scrolled');
             }
         });
-        
-        // Smooth scroll
+
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1143,8 +997,7 @@
                 }
             });
         });
-        
-        // Add transition for language switch
+
         document.querySelectorAll('[data-es][data-en]').forEach(el => {
             el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         });
