@@ -1,1 +1,1129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nariño, Colombia | San Juan de Pasto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f2a;
+            --primary-dark: #0d3d1a;
+            --secondary: #c9a227;
+            --secondary-light: #e8d5a3;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --accent: #e63946;
+            --text-gray: #555;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            overflow-x: hidden;
+            background: var(--light);
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
+        }
+        
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .lang-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 10px rgba(26, 95, 42, 0.3);
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: rgba(26, 95, 42, 0.08);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 50px;
+            z-index: 999;
+            transition: all 0.4s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav.scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            padding: 15px 50px;
+        }
+        
+        nav.scrolled .logo {
+            color: var(--primary);
+        }
+        
+        nav.scrolled .nav-links a {
+            color: var(--dark);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: opacity 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(26,95,42,0.85) 0%, rgba(26,26,46,0.9) 100%),
+                        url('https://www.besabine.com/wp-content/uploads/2020/02/Laguna-de-la-Cocha-Pasto-Colombia-featured.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, var(--light), transparent);
+        }
+        
+        .hero-content {
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(201, 162, 39, 0.2);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6rem);
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease 0.1s both;
+            letter-spacing: -1px;
+        }
+        
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s both;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--secondary);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(201, 162, 39, 0.4);
+            border: 2px solid var(--secondary);
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(201, 162, 39, 0.6);
+        }
+        
+        .hero-btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: none;
+        }
+        
+        .hero-btn-outline:hover {
+            background: white;
+            color: var(--dark);
+            border-color: white;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            margin-bottom: 15px;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-gray);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        
+        .card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .card-image {
+            height: 260px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+            z-index: 1;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+        
+        .card-location {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .card-content {
+            padding: 28px;
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+        
+        .card-description {
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+        
+        .card-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #777;
+            background: #f5f5f5;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            padding: 6px 14px;
+            background: rgba(26, 95, 42, 0.08);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .tag.highlight {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(201, 162, 39, 0.1);
+            border-radius: 50%;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        /* Culture Section */
+        .culture-section {
+            background: var(--dark);
+            color: white;
+            padding: 100px 20px;
+            position: relative;
+        }
+        
+        .culture-section .section-title {
+            color: var(--secondary);
+        }
+        
+        .culture-section .section-title::after {
+            background: var(--secondary);
+        }
+        
+        .culture-section .section-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .culture-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .culture-item:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-5px);
+            border-color: rgba(201, 162, 39, 0.3);
+        }
+        
+        .culture-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+        
+        .culture-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .culture-item p {
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 20px;
+            background: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 280px;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 25px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay h4 {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, #b8941f 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--dark);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 50px 20px 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        footer p {
+            opacity: 0.7;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            opacity: 0.5;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .lang-toggle {
+                top: 15px;
+                right: 15px;
+            }
+            
+            nav {
+                padding: 15px 20px;
+            }
+            
+            nav.scrolled {
+                padding: 12px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 60px 15px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-btn {
+                width: 80%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLanguage('es')" data-lang="es">ES</button>
+        <button class="lang-btn" onclick="setLanguage('en')" data-lang="en">EN</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">Nariño</a>
+        <ul class="nav-links">
+            <li><a href="#destinos" data-es="Destinos" data-en="Destinations">Destinos</a></li>
+            <li><a href="#cultura" data-es="Cultura" data-en="Culture">Cultura</a></li>
+            <li><a href="#galeria" data-es="Galería" data-en="Gallery">Galería</a></li>
+            <li><a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge" data-es="Descubre Colombia" data-en="Discover Colombia">Descubre Colombia</div>
+            <h1 data-es="Nariño" data-en="Nariño">Nariño</h1>
+            <p data-es="Donde los Andes se encuentran con el Pacífico, donde cada pueblo cuenta una historia y cada paisaje te roba el aliento. Bienvenido al corazón del sur colombiano." 
+               data-en="Where the Andes meet the Pacific, where every town tells a story and every landscape takes your breath away. Welcome to the heart of southern Colombia.">
+               Donde los Andes se encuentran con el Pacífico, donde cada pueblo cuenta una historia y cada paisaje te roba el aliento. Bienvenido al corazón del sur colombiano.
+            </p>
+            <div class="hero-buttons">
+                <a href="#destinos" class="hero-btn" data-es="Explorar Destinos" data-en="Explore Destinations">Explorar Destinos</a>
+                <a href="#cultura" class="hero-btn hero-btn-outline" data-es="Nuestra Cultura" data-en="Our Culture">Nuestra Cultura</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinos">
+        <div class="section-header">
+            <h2 class="section-title fade-in" data-es="Lugares Imperdibles" data-en="Must-Visit Places">Lugares Imperdibles</h2>
+            <p class="section-subtitle fade-in" 
+               data-es="Desde lagunas sagradas hasta santuarios que desafían la gravedad, cada rincón de Nariño es una aventura esperando ser vivida."
+               data-en="From sacred lagoons to sanctuaries that defy gravity, every corner of Nariño is an adventure waiting to be lived.">
+               Desde lagunas sagradas hasta santuarios que desafían la gravedad, cada rincón de Nariño es una aventura esperando ser vivida.
+            </p>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Card 1: Laguna de la Cocha -->
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Laguna_de_la_cocha.jpg/800px-Laguna_de_la_cocha.jpg" alt="Laguna de la Cocha">
+                    <div class="card-location">📍 El Encano, Nariño</div>
+                </div>
+                <div class="card-content">
+                    <h3 data-es="Laguna de la Cocha" data-en="La Cocha Lagoon">Laguna de la Cocha</h3>
+                    <p class="card-description" 
+                       data-es="La segunda laguna más grande de Colombia y uno de los humedales de mayor importancia en los Andes. Conocida como 'La Hamaca Grande', alberga la Isla de La Corota, un santuario de flora único rodeado de aguas cristalinas a 2.660 m.s.n.m."
+                       data-en="The second largest lagoon in Colombia and one of the most important wetlands in the Andes. Known as 'The Big Hammock', it houses La Corota Island, a unique flora sanctuary surrounded by crystal-clear waters at 2,660 m.a.s.l.">
+                       La segunda laguna más grande de Colombia y uno de los humedales de mayor importancia en los Andes. Conocida como "La Hamaca Grande", alberga la Isla de La Corota, un santuario de flora único rodeado de aguas cristalinas a 2.660 m.s.n.m.
+                    </p>
+                    <div class="card-details">
+                        <span class="detail-item">🏔️ 2.660 msnm</span>
+                        <span class="detail-item">🚤 Paseos en bote</span>
+                        <span class="detail-item">🦆 Avistamiento de aves</span>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag" data-es="Naturaleza" data-en="Nature">Naturaleza</span>
+                        <span class="tag highlight" data-es="Imperdible" data-en="Must-See">Imperdible</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 2: Santuario de Las Lajas -->
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/24/44/11/santuario-de-las-lajas.jpg?w=900&h=500&s=1" alt="Santuario de Las Lajas">
+                    <div class="card-location">📍 Ipiales, Nariño</div>
+                </div>
+                <div class="card-content">
+                    <h3 data-es="Santuario de Las Lajas" data-en="Las Lajas Sanctuary">Santuario de Las Lajas</h3>
+                    <p class="card-description"
+                       data-es="Una obra maestra de la arquitectura gótica construida entre 1916 y 1949 en el cañón del río Guáitara, a 130 metros de altura. Considerado el templo más bello de Colombia y uno de los santuarios más impresionantes del mundo."
+                       data-en="A Gothic architecture masterpiece built between 1916 and 1949 in the Guáitara River canyon, 130 meters high. Considered the most beautiful temple in Colombia and one of the most impressive sanctuaries in the world.">
+                       Una obra maestra de la arquitectura gótica construida entre 1916 y 1949 en el cañón del río Guáitara, a 130 metros de altura. Considerado el templo más bello de Colombia y uno de los santuarios más impresionantes del mundo.
+                    </p>
+                    <div class="card-details">
+                        <span class="detail-item">⛪ 130m de altura</span>
+                        <span class="detail-item">🌉 Puente colgante</span>
+                        <span class="detail-item">🎨 Vitrales</span>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag" data-es="Patrimonio" data-en="Heritage">Patrimonio</span>
+                        <span class="tag highlight">UNESCO</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 3: Volcán Galeras -->
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="https://colombia.travel/sites/default/files/styles/imagen_350x350/public/banner-volcan-galeras.jpg.webp?itok=7-E-P96U" alt="Volcán Galeras">
+                    <div class="card-location">📍 Pasto, Nariño</div>
+                </div>
+                <div class="card-content">
+                    <h3 data-es="Volcán Galeras" data-en="Galeras Volcano">Volcán Galeras</h3>
+                    <p class="card-description"
+                       data-es="El guardián vigilante de Pasto. Con 4.276 m.s.n.m., es uno de los volcanes más activos de Colombia. Desde su cumbre se observa un panorama de 360° que abarca desde el desierto de Tatacoa hasta el océano Pacífico en días despejados."
+                       data-en="The watchful guardian of Pasto. At 4,276 m.a.s.l., it is one of Colombia's most active volcanoes. From its summit, a 360° panorama spans from the Tatacoa Desert to the Pacific Ocean on clear days.">
+                       El guardián vigilante de Pasto. Con 4.276 m.s.n.m., es uno de los volcanes más activos de Colombia. Desde su cumbre se observa un panorama de 360° que abarca desde el desierto de Tatacoa hasta el océano Pacífico en días despejados.
+                    </p>
+                    <div class="card-details">
+                        <span class="detail-item">🌋 4.276 msnm</span>
+                        <span class="detail-item">🥾 Senderismo</span>
+                        <span class="detail-item">📸 Mirador</span>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag" data-es="Aventura" data-en="Adventure">Aventura</span>
+                        <span class="tag" data-es="Montaña" data-en="Mountain">Montaña</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 4: Parque Nacional Puracé -->
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="https://www.parquesnacionales.gov.co/wp-content/uploads/2023/05/purace.jpg" alt="Parque Nacional Puracé">
+                    <div class="card-location">📍 Puracé, Cauca/Nariño</div>
+                </div>
+                <div class="card-content">
+                    <h3 data-es="Parque Nacional Natural de Puracé" data-en="Puracé National Natural Park">Parque Nacional Natural de Puracé</h3>
+                    <p class="card-description"
+                       data-es="Páramo, frailejones y el majestuoso cóndor de los Andes. Este parque alberga el nacimiento de los ríos Magdalena, Cauca, Patía y Caquetá. Cascadas termales, el Morro de Tulcán y paisajes lunares completan la experiencia."
+                       data-en="Moorland, frailejones, and the majestic Andean condor. This park houses the birth of the Magdalena, Cauca, Patía, and Caquetá rivers. Thermal waterfalls, Morro de Tulcán, and lunar landscapes complete the experience.">
+                       Páramo, frailejones y el majestuoso cóndor de los Andes. Este parque alberga el nacimiento de los ríos Magdalena, Cauca, Patía y Caquetá. Cascadas termales, el Morro de Tulcán y paisajes lunares completan la experiencia.
+                    </p>
+                    <div class="card-details">
+                        <span class="detail-item">🦅 Cóndor andino</span>
+                        <span class="detail-item">♨️ Aguas termales</span>
+                        <span class="detail-item">🌿 Páramo</span>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag" data-es="Ecoturismo" data-en="Ecotourism">Ecoturismo</span>
+                        <span class="tag highlight" data-es="Biodiversidad" data-en="Biodiversity">Biodiversidad</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 5: San Juan de Pasto -->
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/64/b3/ca/20161022-164055-largejpg.jpg?w=1200&h=-1&s=1" alt="Centro Histórico de Pasto">
+                    <div class="card-location">📍 San Juan de Pasto</div>
+                </div>
+                <div class="card-content">
+                    <h3 data-es="San Juan de Pasto" data-en="San Juan de Pasto">San Juan de Pasto</h3>
+                    <p class="card-description"
+                       data-es="Fundada en 1537, es la capital cultural del sur de Colombia. Sus calles empedradas, balcones coloniales y la imponente Catedral de Nuestra Señora de las Mercedes cuentan siglos de historia. Ciudad de artistas, poetas y la cuna del Carnaval de Negros y Blancos."
+                       data-en="Founded in 1537, it is the cultural capital of southern Colombia. Its cobblestone streets, colonial balconies, and the imposing Cathedral of Our Lady of Mercy tell centuries of history. A city of artists, poets, and the birthplace of the Blacks and Whites Carnival.">
+                       Fundada en 1537, es la capital cultural del sur de Colombia. Sus calles empedradas, balcones coloniales y la imponente Catedral de Nuestra Señora de las Mercedes cuentan siglos de historia. Ciudad de artistas, poetas y la cuna del Carnaval de Negros y Blancos.
+                    </p>
+                    <div class="card-details">
+                        <span class="detail-item">🏛️ Fundada 1537</span>
+                        <span class="detail-item">🎨 Capital cultural</span>
+                        <span class="detail-item">⛪ Catedral colonial</span>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag" data-es="Cultura" data-en="Culture">Cultura</span>
+                        <span class="tag" data-es="Historia" data-en="History">Historia</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 6: Reserva La Planada -->
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="http://www.colparques.net/images/planada/3.jpg" alt="Reserva Natural La Planada">
+                    <div class="card-location">📍 Ricaurte, Nariño</div>
+                </div>
+                <div class="card-content">
+                    <h3 data-es="Reserva Natural La Planada" data-en="La Planada Natural Reserve">Reserva Natural La Planada</h3>
+                    <p class="card-description"
+                       data-es="Territorio ancestral del pueblo Awa, ubicada en la vertiente pacífica de los Andes. Con 32.000 hectáreas de bosque húmedo tropical, es hogar de más de 300 especies de aves, incluyendo el tucán pechigrís y el águila harpía. Un paraíso de biodiversidad en la frontera con Ecuador."
+                       data-en="Ancestral territory of the Awa people, located on the Pacific slope of the Andes. With 32,000 hectares of tropical rainforest, it is home to over 300 bird species, including the chestnut-mandibled toucan and the harpy eagle. A biodiversity paradise on the border with Ecuador.">
+                       Territorio ancestral del pueblo Awa, ubicada en la vertiente pacífica de los Andes. Con 32.000 hectáreas de bosque húmedo tropical, es hogar de más de 300 especies de aves, incluyendo el tucán pechigrís y el águila harpía. Un paraíso de biodiversidad en la frontera con Ecuador.
+                    </p>
+                    <div class="card-details">
+                        <span class="detail-item">🌳 32.000 ha</span>
+                        <span class="detail-item">🦜 300+ aves</span>
+                        <span class="detail-item">🏘️ Comunidad Awa</span>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag" data-es="Biodiversidad" data-en="Biodiversity">Biodiversidad</span>
+                        <span class="tag" data-es="Etnico" data-en="Ethnic">Etnico</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item fade-in">
+                <div class="stat-number">33.268</div>
+                <p class="stat-label" data-es="km² de belleza natural" data-en="km² of natural beauty">km² de belleza natural</p>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">1.600+</div>
+                <p class="stat-label" data-es="m.s.n.m. en Pasto" data-en="m.a.s.l. in Pasto">m.s.n.m. en Pasto</p>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">64</div>
+                <p class="stat-label" data-es="Municipios por explorar" data-en="Municipalities to explore">Municipios por explorar</p>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">4.276</div>
+                <p class="stat-label" data-es="m.s.n.m. máxima altura" data-en="m.a.s.l. maximum height">m.s.n.m. máxima altura</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Section -->
+    <section class="culture-section" id="cultura">
+        <div class="section-header">
+            <h2 class="section-title fade-in" data-es="Cultura y Tradición" data-en="Culture & Tradition">Cultura y Tradición</h2>
+            <p class="section-subtitle fade-in" 
+               data-es="Nariño es tierra de artistas, músicos y guardianes de tradiciones milenarias que resisten el paso del tiempo."
+               data-en="Nariño is land of artists, musicians, and guardians of millenary traditions that withstand the test of time.">
+               Nariño es tierra de artistas, músicos y guardianes de tradiciones milenarias que resisten el paso del tiempo.
+            </p>
+        </div>
+        
+        <div class="culture-grid">
+            <div class="culture-item fade-in">
+                <span class="culture-icon">🎭</span>
+                <h3 data-es="Carnaval de Negros y Blancos" data-en="Blacks and Whites Carnival">Carnaval de Negros y Blancos</h3>
+                <p data-es="Patrimonio Cultural Inmaterial de la Humanidad desde 2009. Del 2 al 7 de enero, Pasto se transforma en la fiesta más grande del sur de Colombia. El Desfile Magno, los carros alegóricos, la música tradicional y la pintura de talco y carbón unen a una ciudad entera en celebración."
+                   data-en="Intangible Cultural Heritage of Humanity since 2009. From January 2-7, Pasto transforms into the biggest festival in southern Colombia. The Grand Parade, allegorical floats, traditional music, and talc and charcoal painting unite an entire city in celebration.">
+                   Patrimonio Cultural Inmaterial de la Humanidad desde 2009. Del 2 al 7 de enero, Pasto se transforma en la fiesta más grande del sur de Colombia. El Desfile Magno, los carros alegóricos, la música tradicional y la pintura de talco y carbón unen a una ciudad entera en celebración.
+                </p>
+            </div>
+            
+            <div class="culture-item fade-in">
+                <span class="culture-icon">🍲</span>
+                <h3 data-es="Gastronomía Única" data-en="Unique Gastronomy">Gastronomía Única</h3>
+                <p data-es="Empanadas de pipián (única receta en el mundo), cuy asado con maní, ají de maní, tortilla de maíz nuevo, y el famoso bizcocho de achira. Cada plato cuenta la historia de la fusión entre lo andino y lo amazónico."
+                   data-en="Pipián empanadas (unique recipe in the world), roasted guinea pig with peanut, peanut chili, fresh corn tortilla, and the famous achira biscuit. Each dish tells the story of the fusion between Andean and Amazonian cultures.">
+                   Empanadas de pipián (única receta en el mundo), cuy asado con maní, ají de maní, tortilla de maíz nuevo, y el famoso bizcocho de achira. Cada plato cuenta la historia de la fusión entre lo andino y lo amazónico.
+                </p>
+            </div>
+            
+            <div class="culture-item fade-in">
+                <span class="culture-icon">🏺</span>
+                <h3 data-es="Arte y Artesanías" data-en="Art & Crafts">Arte y Artesanías</h3>
+                <p data-es="El barniz de Pasto, técnica precolombina de la cultura Quillacinga, transforma la madera en objetos de arte con acabados brillantes. Los tejidos indígenas de la comunidad Awa y los tallados en madera de San Juan de Pasto completan esta rica tradición artesanal."
+                   data-en="Pasto varnish, a pre-Columbian technique from the Quillacinga culture, transforms wood into art objects with brilliant finishes. Indigenous weavings from the Awa community and wood carvings from San Juan de Pasto complete this rich artisan tradition.">
+                   El barniz de Pasto, técnica precolombina de la cultura Quillacinga, transforma la madera en objetos de arte con acabados brillantes. Los tejidos indígenas de la comunidad Awa y los tallados en madera de San Juan de Pasto completan esta rica tradición artesanal.
+                </p>
+            </div>
+            
+            <div class="culture-item fade-in">
+                <span class="culture-icon">☕</span>
+                <h3 data-es="Café de Altura" data-en="High Altitude Coffee">Café de Altura</h3>
+                <p data-es="Reconocido mundialmente por su calidad excepcional. Cultivado entre 1.800 y 2.200 metros en las laderas andinas de Nariño, este café de origen único es apreciado por su acidez brillante, cuerpo medio y notas cítricas y florales."
+                   data-en="World-renowned for its exceptional quality. Grown between 1,800 and 2,200 meters on the Andean slopes of Nariño, this single-origin coffee is prized for its bright acidity, medium body, and citrus and floral notes.">
+                   Reconocido mundialmente por su calidad excepcional. Cultivado entre 1.800 y 2.200 metros en las laderas andinas de Nariño, este café de origen único es apreciado por su acidez brillante, cuerpo medio y notas cítricas y florales.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="galeria">
+        <div class="section-header">
+            <h2 class="section-title fade-in" data-es="Galería Visual" data-en="Visual Gallery">Galería Visual</h2>
+            <p class="section-subtitle fade-in"
+               data-es="Un vistazo a los paisajes, tradiciones y momentos que hacen de Nariño un destino inolvidable."
+               data-en="A glimpse of the landscapes, traditions, and moments that make Nariño an unforgettable destination.">
+               Un vistazo a los paisajes, tradiciones y momentos que hacen de Nariño un destino inolvidable.
+            </p>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/CARNAVAL_DE_NEGROS_Y_BLANCOS_2024.jpg" alt="Carnaval de Negros y Blancos">
+                <div class="gallery-overlay">
+                    <h4 data-es="Carnaval de Negros y Blancos" data-en="Blacks and Whites Carnival">Carnaval de Negros y Blancos</h4>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="https://southamericabackpacker.com/wp-content/uploads/2019/02/Iglesia-San-Juan-Bautista-in-Pasto-Colombia.jpg" alt="Iglesia San Juan Bautista">
+                <div class="gallery-overlay">
+                    <h4 data-es="Iglesia San Juan Bautista" data-en="San Juan Bautista Church">Iglesia San Juan Bautista</h4>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="https://radionacional-v3.s3.amazonaws.com/s3fs-public/node/article/field_image/Laguna%20La%20Cocha.jpg" alt="Laguna La Cocha">
+                <div class="gallery-overlay">
+                    <h4 data-es="Laguna La Cocha" data-en="La Cocha Lagoon">Laguna La Cocha</h4>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Concatedral_de_Pasto.jpg" alt="Catedral de Pasto">
+                <div class="gallery-overlay">
+                    <h4 data-es="Catedral de Nuestra Señora de las Mercedes" data-en="Cathedral of Our Lady of Mercy">Catedral de Nuestra Señora de las Mercedes</h4>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/0b/d2/73/parque-natural-de-purace.jpg?w=1200&h=1200&s=1" alt="Parque Natural Puracé">
+                <div class="gallery-overlay">
+                    <h4 data-es="Parque Nacional de Puracé" data-en="Puracé National Park">Parque Nacional de Puracé</h4>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="https://www.prensa-latina.cu/wp-content/uploads/2026/01/Colombia-Pastos-Carnaval-Negros-y-Blancos-1.jpg" alt="Carnaval Pasto">
+                <div class="gallery-overlay">
+                    <h4 data-es="Desfile Magno del Carnaval" data-en="Carnival Grand Parade">Desfile Magno del Carnaval</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contacto">
+        <h2 data-es="¿Listo para vivir Nariño?" data-en="Ready to experience Nariño?">¿Listo para vivir Nariño?</h2>
+        <p data-es="Desde la cima del Galeras hasta las aguas del Pacífico, una aventura única te espera en el sur de Colombia."
+           data-en="From the summit of Galeras to the waters of the Pacific, a unique adventure awaits you in southern Colombia.">
+           Desde la cima del Galeras hasta las aguas del Pacífico, una aventura única te espera en el sur de Colombia.
+        </p>
+        <a href="#" class="cta-btn" data-es="Planificar mi viaje" data-en="Plan my trip">Planificar mi viaje</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Nariño</div>
+            <p data-es="Donde el mundo se encuentra. Tierra de volcanes, lagunas, café y gente con el corazón grande." 
+               data-en="Where the world meets. Land of volcanoes, lagoons, coffee, and people with big hearts.">
+               Donde el mundo se encuentra. Tierra de volcanes, lagunas, café y gente con el corazón grande.
+            </p>
+            <div class="footer-bottom">
+                <p>© 2026 San Juan de Pasto, Nariño, Colombia | <span data-es="Hecho con" data-en="Made with">Hecho con</span> ❤️ <span data-es="para el mundo" data-en="for the world">para el mundo</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Switching
+        function setLanguage(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            document.querySelectorAll('[data-es][data-en]').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    el.textContent = el.dataset[lang];
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 200);
+            });
+            
+            document.documentElement.lang = lang;
+        }
+        
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -60px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Add transition for language switch
+        document.querySelectorAll('[data-es][data-en]').forEach(el => {
+            el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
+    </script>
+</body>
+</html>
 
