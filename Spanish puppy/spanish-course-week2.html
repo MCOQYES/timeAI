@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spanish in 20 Minutes — Week 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0f0e;
+    --card: #161a18;
+    --card2: #1e2320;
+    --border: #2a2e2c;
+    --teal: #4da89a;
+    --teal2: #7ecfc4;
+    --text: #e2e8e6;
+    --muted: #697570;
+    --accent: #d4753c;
+    --green: #5a9e6f;
+    --blue: #4a7fb5;
+    --purple: #8b6fbd;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 30%, rgba(77,168,154,0.05) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 70%, rgba(139,111,189,0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .header h1 em { color: var(--teal2); font-style: italic; }
+  .header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .week-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(77,168,154,0.08);
+    border: 1px solid rgba(77,168,154,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+
+  .day-nav {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .day-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .day-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .day-btn.active { background: var(--teal); border-color: var(--teal); color: #0c0f0e; font-weight: 500; }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s 0.05s ease both;
+  }
+  .progress-bar { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .progress-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+  .lesson { display: none; animation: fadeUp 0.4s ease both; }
+  .lesson.active { display: block; }
+
+  .lesson-header { margin-bottom: 28px; }
+  .lesson-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .lesson-title span { color: var(--teal2); font-style: italic; }
+  .lesson-subtitle { color: var(--muted); font-size: 0.88rem; margin-top: 6px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .section::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .section.grammar::before { background: var(--teal); }
+  .section.vocab::before { background: var(--blue); }
+  .section.examples::before { background: var(--green); }
+  .section.exercise::before { background: var(--accent); }
+  .section.homework::before { background: var(--muted); }
+  .section.review::before { background: var(--purple); }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section.grammar .section-label { color: var(--teal); }
+  .section.vocab .section-label { color: var(--blue); }
+  .section.examples .section-label { color: var(--green); }
+  .section.exercise .section-label { color: var(--accent); }
+  .section.homework .section-label { color: var(--muted); }
+  .section.review .section-label { color: var(--purple); }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .section h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .section p { font-size: 0.92rem; line-height: 1.75; color: #bfc9c6; margin-bottom: 10px; }
+  .section p:last-child { margin-bottom: 0; }
+
+  .grammar-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88rem; }
+  .grammar-table th {
+    background: rgba(77,168,154,0.08);
+    color: var(--teal);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .grammar-table td { padding: 9px 14px; border-bottom: 1px solid rgba(42,46,44,0.5); color: #bfc9c6; line-height: 1.5; }
+  .grammar-table tr:last-child td { border-bottom: none; }
+  .grammar-table td:first-child { font-family: 'DM Mono', monospace; color: var(--teal2); font-size: 0.85rem; }
+  .highlight-row td { background: rgba(77,168,154,0.04); }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+  .vocab-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .vocab-item:hover { border-color: var(--blue); }
+  .vocab-item.revealed .trans { display: block; }
+  .vocab-item .es { font-family: 'DM Mono', monospace; color: var(--teal2); font-size: 0.9rem; margin-bottom: 2px; }
+  .vocab-item .trans { color: var(--muted); font-size: 0.82rem; display: none; }
+  .vocab-item .hint { color: var(--border); font-size: 0.75rem; font-style: italic; }
+  .vocab-item.revealed .hint { display: none; }
+
+  .example-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.88rem;
+  }
+  .example-pair:last-child { margin-bottom: 0; }
+  .example-es { background: rgba(90,158,111,0.06); padding: 10px 14px; font-family: 'DM Mono', monospace; color: var(--green); border-right: 1px solid var(--border); line-height: 1.5; }
+  .example-en { padding: 10px 14px; color: var(--muted); line-height: 1.5; }
+
+  .exercise-item { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; }
+  .exercise-item:last-child { margin-bottom: 0; }
+  .exercise-q { font-size: 0.9rem; color: #bfc9c6; margin-bottom: 12px; line-height: 1.6; }
+  .exercise-q strong { color: var(--teal2); font-weight: 400; font-family: 'DM Mono', monospace; }
+  .exercise-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .opt-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .opt-btn.correct { background: rgba(90,158,111,0.15); border-color: var(--green); color: var(--green); }
+  .opt-btn.wrong { background: rgba(212,95,60,0.12); border-color: var(--accent); color: var(--accent); }
+  .opt-btn:disabled { cursor: default; }
+  .feedback { margin-top: 8px; font-size: 0.82rem; font-style: italic; min-height: 18px; color: var(--muted); }
+
+  .hw-box {
+    background: var(--card2);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 0.9rem;
+    color: #bfc9c6;
+    line-height: 1.75;
+  }
+  .hw-box ol, .hw-box ul { padding-left: 18px; margin-top: 8px; }
+  .hw-box li { margin-bottom: 6px; }
+  .hw-box em { color: var(--teal2); font-style: normal; }
+
+  .recap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(77,168,154,0.07);
+    border: 1px solid rgba(77,168,154,0.18);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+
+  .note {
+    background: rgba(74,127,181,0.07);
+    border-left: 2px solid var(--blue);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    color: #a0b4c8;
+    margin: 10px 0;
+    line-height: 1.65;
+  }
+  .note strong { color: var(--blue); font-weight: 500; }
+
+  .note-purple {
+    background: rgba(139,111,189,0.07);
+    border-left: 2px solid var(--purple);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    color: #b8a8d4;
+    margin: 10px 0;
+    line-height: 1.65;
+  }
+  .note-purple strong { color: var(--purple); font-weight: 500; }
+
+  code { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--teal2); background: rgba(77,168,154,0.08); padding: 1px 5px; border-radius: 3px; }
+
+  .nav-btns { display: flex; justify-content: space-between; margin-top: 28px; }
+  .nav-btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .nav-btn.primary { background: var(--teal); border-color: var(--teal); color: #0c0f0e; font-weight: 500; }
+  .nav-btn.primary:hover:not(:disabled) { background: var(--teal2); border-color: var(--teal2); }
+
+  /* Adjective agreement demo */
+  .adj-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .adj-box {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .adj-box .label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+  .adj-box .word { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--teal2); }
+  .adj-box .sub { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+
+  /* Near future builder */
+  .formula-box {
+    background: rgba(77,168,154,0.06);
+    border: 1px solid rgba(77,168,154,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--teal2);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+  .formula-box .plus { color: var(--muted); margin: 0 8px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 560px) {
+    .example-pair { grid-template-columns: 1fr; }
+    .example-es { border-right: none; border-bottom: 1px solid var(--border); }
+    .vocab-grid { grid-template-columns: 1fr 1fr; }
+    .adj-demo { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-label">Week 2 · Days 8–14 · ~20 min each</div>
+    <h1>Spanish in <em>20 Minutes</em></h1>
+    <p>Week 2 — I describe. Verbs, adjectives, colours, feelings, and talking about the near future.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:14.2%"></div></div>
+    <div class="progress-label" id="progressLabel">Day 8 / 14</div>
+  </div>
+
+  <div class="day-nav" id="dayNav">
+    <button class="day-btn active" onclick="goTo(0)">8</button>
+    <button class="day-btn" onclick="goTo(1)">9</button>
+    <button class="day-btn" onclick="goTo(2)">10</button>
+    <button class="day-btn" onclick="goTo(3)">11</button>
+    <button class="day-btn" onclick="goTo(4)">12</button>
+    <button class="day-btn" onclick="goTo(5)">13</button>
+    <button class="day-btn" onclick="goTo(6)">14</button>
+  </div>
+
+  <!-- ===================== DAY 8 ===================== -->
+  <div class="lesson active" id="lesson-0">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 8 · Week 2 — I describe</div>
+      <div class="lesson-title">-er and -ir verbs <span>Comer, vivir, beber…</span></div>
+      <div class="lesson-subtitle">Present tense -er / -ir verbs · Most common verbs</div>
+    </div>
+
+    <div class="recap">↩ Week 1 recap: <strong>-ar verbs → hablo, hablas, habla, hablamos, hablan</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>The other two verb families</h3>
+      <p>Last week you learned <code>-ar</code> verbs. Spanish has two more groups. The endings are very similar — the main difference is the vowel that changes from <strong>a</strong> to <strong>e</strong>.</p>
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>-er: comer (eat)</th><th>-ir: vivir (live)</th></tr>
+        <tr class="highlight-row"><td>yo</td><td>como</td><td>vivo</td></tr>
+        <tr><td>tú</td><td>comes</td><td>vives</td></tr>
+        <tr><td>él / ella</td><td>come</td><td>vive</td></tr>
+        <tr><td>nosotros</td><td>comemos</td><td>vivimos</td></tr>
+        <tr><td>ellos</td><td>comen</td><td>viven</td></tr>
+      </table>
+      <div class="note">
+        <strong>Pattern shortcut:</strong> -er and -ir are almost identical. The only difference is <em>nosotros</em>: <code>comemos</code> vs <code>vivimos</code>. Everything else is the same endings.
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Essential -er and -ir verbs</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">comer</div><div class="trans">to eat</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">beber</div><div class="trans">to drink</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">leer</div><div class="trans">to read</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">comprender</div><div class="trans">to understand</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">vivir</div><div class="trans">to live</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">escribir</div><div class="trans">to write</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">abrir</div><div class="trans">to open</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">recibir</div><div class="trans">to receive</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Como fruta todos los días.</div>
+        <div class="example-en">I eat fruit every day.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Ella bebe café por la mañana.</div>
+        <div class="example-en">She drinks coffee in the morning.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Vivo en España pero soy de Mongolia.</div>
+        <div class="example-en">I live in Spain but I'm from Mongolia.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿Comprendes? Sí, comprendo bien.</div>
+        <div class="example-en">Do you understand? Yes, I understand well.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Choose the right form</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Ellos _____ (comer) en un restaurante. <em>(They eat at a restaurant.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Come = he/she eats')">come</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Ellos → comen')">comen</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Comemos = we eat')">comemos</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Yo _____ (escribir) una carta. <em>(I write a letter.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Escribes = you write')">escribes</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Yo → escribo')">escribo</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Escribe = he/she writes')">escribe</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Nosotros _____ (vivir) en Madrid. <em>(We live in Madrid.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Viven = they live')">viven</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Vivimos is -ir, not -emos')">vivemos</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! -ir nosotros → -imos')">vivimos</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write 5 sentences combining Week 1 and Week 2 verbs:
+        <ol>
+          <li>What do you eat for breakfast? <em>Como _____ por la mañana.</em></li>
+          <li>Where do you live? <em>Vivo en ___.</em></li>
+          <li>Do you read books? <em>Leo libros / No leo libros.</em></li>
+          <li>Do you drink coffee or tea? <em>Bebo _____.</em></li>
+          <li>Write one sentence about what a friend or family member does.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" disabled>← Week 1</button>
+      <button class="nav-btn primary" onclick="goTo(1)">Day 9 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 9 ===================== -->
+  <div class="lesson" id="lesson-1">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 9 · Week 2 — I describe</div>
+      <div class="lesson-title">Adjectives agree <span>Los adjetivos concuerdan</span></div>
+      <div class="lesson-subtitle">Masculine & feminine adjectives · Placement · Agreement</div>
+    </div>
+
+    <div class="recap">↩ Day 8 recap: <strong>como, comes, come · vivo, vives, vive</strong> — -er/-ir present tense</div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>Adjectives must match the noun</h3>
+      <p>In Spanish, adjectives <em>agree</em> with the noun they describe — in gender and number. This is unlike English where adjectives never change.</p>
+      <div class="adj-demo">
+        <div class="adj-box"><div class="label">Masculine</div><div class="word">alto</div><div class="sub">el chico alto</div></div>
+        <div class="adj-box"><div class="label">Feminine</div><div class="word">alta</div><div class="sub">la chica alta</div></div>
+        <div class="adj-box"><div class="label">Masc. plural</div><div class="word">altos</div><div class="sub">los chicos altos</div></div>
+        <div class="adj-box"><div class="label">Fem. plural</div><div class="word">altas</div><div class="sub">las chicas altas</div></div>
+      </div>
+      <table class="grammar-table">
+        <tr><th>Adjective</th><th>Masculine</th><th>Feminine</th></tr>
+        <tr><td>tall / short</td><td>alto / bajo</td><td>alta / baja</td></tr>
+        <tr><td>big / small</td><td>grande / pequeño</td><td>grande / pequeña</td></tr>
+        <tr><td>nice / ugly</td><td>guapo / feo</td><td>guapa / fea</td></tr>
+        <tr class="highlight-row"><td>interesting</td><td>interesante</td><td>interesante</td></tr>
+        <tr><td>intelligent</td><td>inteligente</td><td>inteligente</td></tr>
+      </table>
+      <div class="note-purple">
+        <strong>Shortcut:</strong> Adjectives ending in <code>-e</code> (like <em>interesante, inteligente, grande</em>) do NOT change for gender — only for plural (add <code>-s</code>). Only <code>-o/-a</code> adjectives change.
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Descriptive adjectives</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">simpático/a</div><div class="trans">nice / friendly</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">antipático/a</div><div class="trans">unfriendly</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">divertido/a</div><div class="trans">fun / funny</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">aburrido/a</div><div class="trans">boring / bored</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">delgado/a</div><div class="trans">thin / slim</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">moreno/a</div><div class="trans">dark-haired / dark</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">rubio/a</div><div class="trans">blonde</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">joven / mayor</div><div class="trans">young / older</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Mi amiga es alta y simpática.</div>
+        <div class="example-en">My friend (f) is tall and friendly.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">El libro es muy interesante.</div>
+        <div class="example-en">The book is very interesting.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Tengo dos hermanos. Son altos y divertidos.</div>
+        <div class="example-en">I have two brothers. They're tall and fun.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Soy morena y tengo los ojos oscuros.</div>
+        <div class="example-en">I'm dark-haired and have dark eyes.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Make the adjective agree</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">La profesora es muy _____ (intelligent). <em>(The teacher (f) is very intelligent.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Inteligente ends in -e, no change needed')">inteligente</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Inteligenta is not a word!')">inteligenta</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Mi hermano es _____ (tall). <em>(My brother is tall.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Alta is feminine — hermano is masculine')">alta</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Alto — masculine form')">alto</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Altos is plural')">altos</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Las películas son muy _____ (fun). <em>(The movies (f, pl) are very fun.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Divertido is masculine singular')">divertido</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Divertidos is masculine plural')">divertidos</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Feminine plural → divertidas')">divertidas</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Describe 3 people you know (family, friends) using at least 2 adjectives each. Pay attention to gender agreement!<br><br>
+        Structure: <em>Mi ___ es ___ y ___. Tiene el pelo ___ y los ojos ___.</em><br><br>
+        <strong>New words:</strong> <em>el pelo</em> (hair), <em>los ojos</em> (eyes), <em>oscuro/a</em> (dark), <em>claro/a</em> (light)
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(0)">← Day 8</button>
+      <button class="nav-btn primary" onclick="goTo(2)">Day 10 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 10 ===================== -->
+  <div class="lesson" id="lesson-2">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 10 · Week 2 — I describe</div>
+      <div class="lesson-title">Colours & appearance <span>Colores y apariencia</span></div>
+      <div class="lesson-subtitle">Colours · Physical description · Hay (there is/are)</div>
+    </div>
+
+    <div class="recap">↩ Day 9 recap: adjectives agree in gender — <strong>alto/alta, altos/altas</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>HAY — the most useful word in Spanish</h3>
+      <p><code>Hay</code> comes from <em>haber</em> and means both "there is" and "there are". It never changes — one form for everything.</p>
+      <table class="grammar-table">
+        <tr><th>Spanish</th><th>English</th></tr>
+        <tr><td>Hay un gato.</td><td>There is a cat.</td></tr>
+        <tr class="highlight-row"><td>Hay muchos gatos.</td><td>There are many cats.</td></tr>
+        <tr><td>¿Hay agua?</td><td>Is there any water?</td></tr>
+        <tr><td>No hay problema.</td><td>There's no problem.</td></tr>
+        <tr><td>¿Cuántos hay?</td><td>How many are there?</td></tr>
+      </table>
+      <div class="note">
+        <strong>Important:</strong> After <code>hay</code>, use the indefinite article (<code>un/una/unos/unas</code>) or no article at all — never <code>el/la</code>.<br>
+        ✓ <code>Hay un restaurante.</code> &nbsp; ✗ <code>Hay el restaurante.</code>
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Colours (los colores)</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">rojo/a</div><div class="trans">red</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">azul</div><div class="trans">blue (no change!)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">verde</div><div class="trans">green (no change!)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">amarillo/a</div><div class="trans">yellow</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">negro/a</div><div class="trans">black</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">blanco/a</div><div class="trans">white</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">gris</div><div class="trans">grey (no change!)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">marrón</div><div class="trans">brown (no change!)</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Hay un gato negro en el jardín.</div>
+        <div class="example-en">There is a black cat in the garden.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Tengo los ojos verdes y el pelo marrón.</div>
+        <div class="example-en">I have green eyes and brown hair.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿Hay una farmacia cerca? — Sí, hay una.</div>
+        <div class="example-en">Is there a pharmacy nearby? — Yes, there's one.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">La casa es blanca y tiene puertas azules.</div>
+        <div class="example-en">The house is white and has blue doors.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Hay + colours</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"There are red chairs." → Hay sillas _____.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Rojo is masculine — sillas is feminine plural')">rojos</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Sillas (f, pl) → rojas')">rojas</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Roja is singular')">roja</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"Is there a blue car?" → ¿Hay _____ coche azul?</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! After hay use un/una — coche is masculine')">un</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','After hay, never use el/la')">el</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Una is for feminine nouns')">una</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"There is no problem." → _____ hay problema.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Sin means without')">Sin</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Nunca means never')">Nunca</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! No hay problema — classic phrase!')">No</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Describe your room or the space around you using <em>hay</em> and colours:
+        <ol>
+          <li>Write 3 sentences with <em>hay</em>: <em>Hay una silla negra. Hay dos ventanas grandes...</em></li>
+          <li>Describe your own appearance using colours: hair, eyes, clothing today.</li>
+        </ol>
+        <strong>Challenge:</strong> Describe the Mongolian flag in Spanish! <em>(It has blue, red, and a golden symbol...)</em>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(1)">← Day 9</button>
+      <button class="nav-btn primary" onclick="goTo(3)">Day 11 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 11 ===================== -->
+  <div class="lesson" id="lesson-3">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 11 · Week 2 — I describe</div>
+      <div class="lesson-title">My family <span>Mi familia</span></div>
+      <div class="lesson-subtitle">Family vocabulary · Possessive adjectives · mi/tu/su</div>
+    </div>
+
+    <div class="recap">↩ Day 10 recap: <strong>hay un/una</strong> (there is) · colours agree with their noun</div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>Possessive adjectives — my, your, his, her…</h3>
+      <p>These are the words that show ownership. In Spanish they agree with the thing owned, not the owner.</p>
+      <table class="grammar-table">
+        <tr><th>English</th><th>Singular</th><th>Plural</th></tr>
+        <tr class="highlight-row"><td>my</td><td>mi</td><td>mis</td></tr>
+        <tr><td>your (informal)</td><td>tu</td><td>tus</td></tr>
+        <tr><td>his / her / your (formal)</td><td>su</td><td>sus</td></tr>
+        <tr><td>our</td><td>nuestro/a</td><td>nuestros/as</td></tr>
+        <tr><td>their</td><td>su</td><td>sus</td></tr>
+      </table>
+      <div class="note">
+        <strong>Watch out:</strong> <code>mi</code> (my) has no accent. <code>mí</code> (with accent) means "me". They sound the same but mean different things.<br>
+        Also: <code>tu</code> = your (no accent). <code>tú</code> (with accent) = you.
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>La familia</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">la madre / mamá</div><div class="trans">mother / mum</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el padre / papá</div><div class="trans">father / dad</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el hermano/a</div><div class="trans">brother / sister</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">los abuelos</div><div class="trans">grandparents</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el novio / la novia</div><div class="trans">boyfriend / girlfriend</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el tío / la tía</div><div class="trans">uncle / aunt</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">los hijos</div><div class="trans">children (sons/daughters)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">único/a hijo/a</div><div class="trans">only child</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Mi madre es de Mongolia. Su nombre es Oyuna.</div>
+        <div class="example-en">My mother is from Mongolia. Her name is Oyuna.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Tengo dos hermanos. Mis hermanos son altos.</div>
+        <div class="example-en">I have two brothers. My brothers are tall.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿Cómo se llama tu novio? — Se llama Marlon.</div>
+        <div class="example-en">What's your boyfriend's name? — His name is Marlon.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Nuestra familia vive en Ulan Bator.</div>
+        <div class="example-en">Our family lives in Ulaanbaatar.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Choose the right possessive</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">_____ padres son simpáticos. <em>(My parents are nice.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Mi is singular — padres is plural')">Mi</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Mis — plural of mi')">Mis</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Tu is your, not my')">Tu</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">¿Cómo se llama _____ hermana? <em>(What's your sister's name?)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Tu = your (informal, singular)')">tu</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Su = his/her/your formal')">su</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Mi = my, not your')">mi</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">_____ casa es muy grande. <em>(Our house is very big.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Nuestros is masculine plural')">Nuestros</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Nuestra — casa is feminine singular')">Nuestra</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Nuestras is feminine plural')">Nuestras</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write a short paragraph about your family (real or imagined). Include:
+        <ol>
+          <li>How many people are in your family</li>
+          <li>Where they are from / where they live</li>
+          <li>What they look like (use adjectives!)</li>
+          <li>One thing each person does (use a verb)</li>
+        </ol>
+        Start with: <em>"Mi familia es ___. Tengo ___ hermanos/as..."</em>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(2)">← Day 10</button>
+      <button class="nav-btn primary" onclick="goTo(4)">Day 12 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 12 ===================== -->
+  <div class="lesson" id="lesson-4">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 12 · Week 2 — I describe</div>
+      <div class="lesson-title">Likes and preferences <span>Gustar y preferir</span></div>
+      <div class="lesson-subtitle">Gustar · Me gusta / te gusta · Indirect object pronouns</div>
+    </div>
+
+    <div class="recap">↩ Day 11 recap: <strong>mi/mis · tu/tus · su/sus · nuestro/a/os/as</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>GUSTAR — the backwards verb</h3>
+      <p><code>Gustar</code> works differently from English "to like". In Spanish, the thing you like is the subject — it "pleases" you. The person who likes is the indirect object.</p>
+      <table class="grammar-table">
+        <tr><th>Spanish</th><th>Literal</th><th>English meaning</th></tr>
+        <tr class="highlight-row"><td>Me gusta el café.</td><td>Coffee pleases me.</td><td>I like coffee.</td></tr>
+        <tr><td>Me gustan los gatos.</td><td>Cats please me.</td><td>I like cats.</td></tr>
+        <tr><td>Te gusta bailar.</td><td>Dancing pleases you.</td><td>You like to dance.</td></tr>
+        <tr><td>Le gusta la música.</td><td>Music pleases him/her.</td><td>He/she likes music.</td></tr>
+        <tr><td>Nos gusta viajar.</td><td>Travelling pleases us.</td><td>We like to travel.</td></tr>
+      </table>
+      <div class="note-purple">
+        <strong>The key rule:</strong> Use <code>gusta</code> (singular) when what you like is singular or is a verb. Use <code>gustan</code> (plural) when what you like is plural.<br>
+        <code>Me gusta el libro.</code> → <code>Me gustan los libros.</code>
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Things to like / dislike</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">la música</div><div class="trans">music</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">viajar</div><div class="trans">to travel</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">cocinar</div><div class="trans">to cook</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">las películas</div><div class="trans">films / movies</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">mucho / poco</div><div class="trans">a lot / a little</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">no me gusta</div><div class="trans">I don't like</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">me encanta</div><div class="trans">I love (it)</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">¿a ti te gusta?</div><div class="trans">do you like it?</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Me gusta mucho el español. ¡Me encanta!</div>
+        <div class="example-en">I like Spanish a lot. I love it!</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿Te gustan las películas de acción?</div>
+        <div class="example-en">Do you like action movies?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">No me gusta el frío, pero me gusta la nieve.</div>
+        <div class="example-en">I don't like the cold, but I like snow.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">A mi novio le gusta cocinar. A mí me gusta comer.</div>
+        <div class="example-en">My boyfriend likes to cook. I like to eat.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Gusta or gustan?</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Me _____ los libros de aventuras. <em>(I like adventure books.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Gusta is for singular — libros is plural')">gusta</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Los libros (plural) → gustan')">gustan</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">¿Te _____ viajar? <em>(Do you like to travel?)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Verb after gustar → always singular')">gusta</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','When the object is a verb, use gusta (singular)')">gustan</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"She loves music." → Le _____ mucho la música.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Muy bien! La música (singular) → gusta')">gusta</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','La música is singular')">gustan</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Encanta also works but the question asks for gusta/gustan')">encanta</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write 6 sentences about what you like, love, or don't like:
+        <ol>
+          <li>2 things you like: <em>Me gusta ___.</em></li>
+          <li>1 thing you love: <em>Me encanta ___.</em></li>
+          <li>1 thing you don't like: <em>No me gusta ___.</em></li>
+          <li>1 thing your partner likes: <em>A mi novio/a le gusta ___.</em></li>
+          <li>1 question to ask someone: <em>¿Te gusta ___?</em></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(3)">← Day 11</button>
+      <button class="nav-btn primary" onclick="goTo(5)">Day 13 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 13 ===================== -->
+  <div class="lesson" id="lesson-5">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 13 · Week 2 — I describe</div>
+      <div class="lesson-title">Near future <span>El futuro próximo</span></div>
+      <div class="lesson-subtitle">Ir + a + infinitive · Plans · ¿Qué vas a hacer?</div>
+    </div>
+
+    <div class="recap">↩ Day 12 recap: <strong>me gusta / me gustan · te gusta / te gustan</strong></div>
+
+    <div class="section grammar">
+      <div class="section-label">Grammar</div>
+      <h3>IR + A + infinitive — talking about plans</h3>
+      <p>This is the easiest way to talk about the future. You don't need to learn new verb forms — just conjugate <code>ir</code> (to go) and add <code>a</code> + any infinitive verb.</p>
+      <div class="formula-box">
+        IR (conjugated) <span class="plus">+</span> a <span class="plus">+</span> infinitive verb
+      </div>
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>IR</th><th>Example</th></tr>
+        <tr class="highlight-row"><td>yo</td><td>voy</td><td>Voy a comer.</td></tr>
+        <tr><td>tú</td><td>vas</td><td>¿Vas a estudiar?</td></tr>
+        <tr><td>él / ella</td><td>va</td><td>Ella va a viajar.</td></tr>
+        <tr><td>nosotros</td><td>vamos</td><td>Vamos a salir.</td></tr>
+        <tr><td>ellos</td><td>van</td><td>Van a llegar tarde.</td></tr>
+      </table>
+      <div class="note">
+        <strong>¡Vamos!</strong> — when <code>vamos a</code> is followed by an infinitive it means "we are going to...". But by itself, <code>¡Vamos!</code> means "Let's go!" — you already learned this on Day 7.
+      </div>
+    </div>
+
+    <div class="section vocab">
+      <div class="section-label">Vocabulary — tap to reveal</div>
+      <h3>Plans and future expressions</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">mañana</div><div class="trans">tomorrow</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">esta noche</div><div class="trans">tonight</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">la semana que viene</div><div class="trans">next week</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">el fin de semana</div><div class="trans">the weekend</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">salir</div><div class="trans">to go out</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">llegar</div><div class="trans">to arrive</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">visitar</div><div class="trans">to visit</div><div class="hint">tap</div></div>
+        <div class="vocab-item" onclick="this.classList.toggle('revealed')"><div class="es">quedarse en casa</div><div class="trans">to stay home</div><div class="hint">tap</div></div>
+      </div>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Examples</div>
+      <div class="example-pair">
+        <div class="example-es">Esta noche voy a estudiar español.</div>
+        <div class="example-en">Tonight I'm going to study Spanish.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">¿Qué vas a hacer mañana?</div>
+        <div class="example-en">What are you going to do tomorrow?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Vamos a visitar Mongolia el año que viene.</div>
+        <div class="example-en">We're going to visit Mongolia next year.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">Ella va a llegar a las ocho. ¿Vas a salir?</div>
+        <div class="example-en">She's going to arrive at eight. Are you going out?</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Exercise</div>
+      <h3>Build the near future</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Mañana yo _____ a descansar. <em>(Tomorrow I'm going to rest.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Yo → voy a + infinitive')">voy</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Vas = you are going')">vas</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Va = he/she is going')">va</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">Ellos _____ a llegar tarde. <em>(They're going to arrive late.)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Vamos = we are going')">vamos</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Va = he/she is going')">va</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Ellos → van a')">van</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">¿Qué _____ a hacer este fin de semana? <em>(What are you going to do this weekend?)</em></div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Voy = I am going')">voy</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Tú → vas a hacer')">vas</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Van = they are going')">van</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Homework</div>
+      <div class="hw-box">
+        Write your plan for the next 3 days using <em>voy a + infinitive</em>:
+        <ol>
+          <li><em>Esta noche voy a ___.</em></li>
+          <li><em>Mañana voy a ___ y también voy a ___.</em></li>
+          <li><em>El fin de semana vamos a ___.</em> (use "we" for something you'll do together)</li>
+        </ol>
+        <strong>Challenge:</strong> Write what you think your partner is going to do tomorrow using <em>él/ella va a...</em>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(4)">← Day 12</button>
+      <button class="nav-btn primary" onclick="goTo(6)">Day 14 →</button>
+    </div>
+  </div>
+
+  <!-- ===================== DAY 14 ===================== -->
+  <div class="lesson" id="lesson-6">
+    <div class="lesson-header">
+      <div class="lesson-tag">Day 14 · Week 2 — Review & connect</div>
+      <div class="lesson-title">Putting it all together <span>Todo junto</span></div>
+      <div class="lesson-subtitle">Week 2 review · Full conversation · Real-world practice</div>
+    </div>
+
+    <div class="recap">↩ Week 2 in one line: <strong>-er/-ir verbs · adjectives · hay · family · gustar · voy a</strong></div>
+
+    <div class="section review">
+      <div class="section-label">Week 2 Review</div>
+      <h3>What you can do now</h3>
+      <table class="grammar-table">
+        <tr><th>Skill</th><th>Example</th></tr>
+        <tr><td>-er / -ir verbs</td><td>Como, bebo, vivo, escribo, leo.</td></tr>
+        <tr><td>Adjective agreement</td><td>Una chica alta. Unos chicos altos.</td></tr>
+        <tr><td>Colours</td><td>Tengo los ojos verdes y el pelo negro.</td></tr>
+        <tr><td>Hay</td><td>Hay una cafetería cerca. No hay problema.</td></tr>
+        <tr><td>Possessives</td><td>Mi familia, tus amigos, nuestra casa.</td></tr>
+        <tr><td>Gustar</td><td>Me gusta el café. Me gustan los gatos.</td></tr>
+        <tr><td>Near future</td><td>Voy a estudiar. ¿Qué vas a hacer?</td></tr>
+      </table>
+    </div>
+
+    <div class="section examples">
+      <div class="section-label">Full dialogue — read it, then try without looking</div>
+      <h3>A rich conversation using 2 weeks of Spanish</h3>
+      <div class="example-pair">
+        <div class="example-es">— ¿Cómo eres tú? Descríbete.</div>
+        <div class="example-en">What are you like? Describe yourself.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Soy morena, tengo los ojos oscuros. Soy simpática y bastante divertida.</div>
+        <div class="example-en">I'm dark-haired, I have dark eyes. I'm friendly and quite fun.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— ¿Y qué te gusta hacer?</div>
+        <div class="example-en">And what do you like to do?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Me encanta viajar y me gusta mucho leer. No me gusta madrugar.</div>
+        <div class="example-en">I love travelling and I really like reading. I don't like getting up early.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— ¿Tienes familia aquí en España?</div>
+        <div class="example-en">Do you have family here in Spain?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— No, mi familia vive en Mongolia. Pero mi novio es español.</div>
+        <div class="example-en">No, my family lives in Mongolia. But my boyfriend is Spanish.</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— ¿Y qué vais a hacer este fin de semana?</div>
+        <div class="example-en">And what are you going to do this weekend?</div>
+      </div>
+      <div class="example-pair">
+        <div class="example-es">— Vamos a comer con sus amigos. Hay un restaurante muy bueno cerca.</div>
+        <div class="example-en">We're going to eat with his friends. There's a very good restaurant nearby.</div>
+      </div>
+    </div>
+
+    <div class="section exercise">
+      <div class="section-label">Week 2 Final Challenge</div>
+      <h3>Mixed review</h3>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"I like cats." → Me _____ los gatos.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Gusta is for singular — gatos is plural')">gusta</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Perfecto! Plural noun → gustan')">gustan</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"We're going to visit your family." → Vamos a visitar _____ familia.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Mi = my, not your')">mi</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Correcto! Tu = your (informal, singular)')">tu</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Su = his/her/formal your')">su</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="exercise-item">
+        <div class="exercise-q">"She writes interesting books." → Ella escribe libros _____.</div>
+        <div class="exercise-options">
+          <button class="opt-btn" onclick="answer(this,'wrong','Interesante is singular')">interesante</button>
+          <button class="opt-btn" onclick="answer(this,'correct','¡Exacto! Libros (m, pl) + -e adj → just add -s: interesantes')">interesantes</button>
+          <button class="opt-btn" onclick="answer(this,'wrong','Interesantos is not a word!')">interesantos</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="section homework">
+      <div class="section-label">Week 2 Final Task</div>
+      <div class="hw-box">
+        Write a <strong>mini profile</strong> of yourself in Spanish — like a short social media bio. Include:
+        <ol>
+          <li>Name, origin, where you live</li>
+          <li>Physical description (2–3 adjectives)</li>
+          <li>Personality (2 adjectives)</li>
+          <li>What you like and love</li>
+          <li>Your family (brief)</li>
+          <li>One plan you have for the near future</li>
+        </ol>
+        <br>
+        <strong>Week 3 preview:</strong> Next week — asking questions, negation, ordering food, shopping, and getting around the city. ¡Hasta la semana que viene!
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="goTo(5)">← Day 13</button>
+      <button class="nav-btn" disabled style="opacity:0.4">Week 3 coming soon →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function goTo(day) {
+    document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('lesson-' + day).classList.add('active');
+    document.querySelectorAll('.day-btn')[day].classList.add('active');
+    const pct = ((day + 1) / 7 * 100).toFixed(1);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = 'Day ' + (day + 8) + ' / 14';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function answer(btn, result, msg) {
+    const group = btn.closest('.exercise-options');
+    if (group.querySelector('.correct, .wrong')) return;
+    group.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    btn.classList.add(result);
+    const fb = btn.closest('.exercise-item').querySelector('.feedback');
+    fb.textContent = msg;
+    fb.style.color = result === 'correct' ? 'var(--green)' : 'var(--accent)';
+  }
+</script>
+</body>
+</html>
